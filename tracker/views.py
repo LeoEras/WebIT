@@ -1,20 +1,19 @@
 from django.shortcuts import render
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from .models import Datos
 
-filtros = ['stackoverflow', 'Stackoverflow', 'Komodo', 'komodo',
-          'Notepad', 'notepad', 'cmd', 'localhost', 'python',
-          'Python', 'Mongo', 'mongo', 'Sublime', 'sublime',
-          'dllhost', 'wampmanager', 'Wampanager', 'NetBeans',
-          'netbeans', 'github', 'GitHub', 'mintty', 'Mintty',
-          'node', 'Node', 'server', 'Server']
-
 def index(request):
-    activity_list = Datos.objects.all()
-    activity_list = filterByDateAndUser(activity_list, "2016-07-20", "2016-09-08", 22)
+    activity_list = Datos.objects.filter(usuario=22)
+    activity_list = filterByDate(activity_list, "2016-07-20", "2016-09-08")
+    activity_list = filterByClass(activity_list, "Applications")
+    activity_list = filterByRelevance(activity_list, 1)
+    dictionary = {}
     for item in activity_list:
-        setImportance(item, filtros)
-    context = {'activity_list': activity_list}
+        if item.dia_inicio not in dictionary:
+            dictionary[item.dia_inicio] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        else:
+            dictionary[item.dia_inicio] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+    context = {'activity_list': dictionary}
     return render(request, 'tracker/index.html', context)
     
 def base():
@@ -54,14 +53,18 @@ def filterByDate(objects, date_start, date_end):
             result.append(item)
     return result
 
-def filterByDateAndUser(objects, date_start, date_end, user):
+def filterByClass(objects, class_object):
     result = []
-    d_start = datetime.strptime(date_start, "%Y-%m-%d").date()
-    d_end = datetime.strptime(date_end, "%Y-%m-%d").date()
     for item in objects:
-        if item.usuario == user and d_start <= item.dia_inicio and item.dia_final <= d_end:
+        if item.clase == class_object:
             result.append(item)
     return result
 
+def filterByRelevance(objects, relevance):
+    result = []
+    for item in objects:
+        if item.importancia == relevance:
+            result.append(item)
+    return result
 
 
