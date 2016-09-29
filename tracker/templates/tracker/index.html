@@ -4,26 +4,50 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-    {% if activity_list %}
-        {% for key, value in activity_list.items %}
-            <li style="display: none">{{key}}</li>
-        {% endfor %}
-        {% for key, value in activity_list.items %}
-            <ul style="display: none">{{value}}</ul>
-        {% endfor %}
-    {% endif %}
+    {% for item in dates %}
+        <li class="alldates" style="display: none">{{item}}</li>
+    {% endfor %}
+    {% for item in times_22 %}
+        <ul class="ul22" style="display: none">{{item}}</ul>
+    {% endfor %}
+    {% for item in times_28 %}
+        <ul class="ul28" style="display: none">{{item}}</ul>
+    {% endfor %}
+    {% for item in times_34 %}
+        <ul class="ul34" style="display: none">{{item}}</ul>
+    {% endfor %}
+    {% for item in times_26 %}
+        <ul class="ul26" style="display: none">{{item}}</ul>
+    {% endfor %}
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 </body>
 </html>
 <script>
 $(function () {
-    var values = $("ul").map(function() {
+    var values_22 = $(".ul22").map(function() {
                  return $(this).text();
               }).get();
-    for (i = 0; i < values.length; i++) { 
-        values[i] = parseFloat(values[i]);
+    for (i = 0; i < values_22.length; i++) { 
+        values_22[i] = parseFloat(values_22[i]);
     }
-
+    var values_28 = $(".ul28").map(function() {
+                 return $(this).text();
+              }).get();
+    for (i = 0; i < values_28.length; i++) { 
+        values_28[i] = parseFloat(values_28[i]);
+    }
+    var values_34 = $(".ul34").map(function() {
+                 return $(this).text();
+              }).get();
+    for (i = 0; i < values_34.length; i++) { 
+        values_34[i] = parseFloat(values_34[i]);
+    }
+    var values_26 = $(".ul26").map(function() {
+                 return $(this).text();
+              }).get();
+    for (i = 0; i < values_26.length; i++) { 
+        values_26[i] = parseFloat(values_26[i]);
+    }
     $('#container').highcharts({
         title: {
             text: 'Grupo #1',//$( "li" ).text(),
@@ -34,13 +58,32 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: $("li").map(function() {
+            categories: $(".alldates").map(function() {
                  return $(this).text();
               }).get()
         },
         yAxis: {
+            min: 0,
+            max: 18000,
+            tickInterval: 3600,
             title: {
-                text: 'Temperature (C)'
+                text: 'Tiempo Empleado'
+            },          
+            labels: {
+                formatter: function () {
+                    var hour = Math.floor(this.value/3600);
+                    var minute = Math.floor((this.value - hour*3600)/60);
+                    var seconds = this.value - hour*3600 - minute*60;
+                    if (minute < 10)
+                    {
+                        minute = "0" + minute;
+                    }
+                    if (seconds < 10)
+                    {
+                        seconds = "0" + seconds;
+                    }
+                    return hour + ':' + minute + ':' + seconds
+                }            
             },
             plotLines: [{
                 value: 0,
@@ -48,8 +91,20 @@ $(function () {
                 color: '#808080'
             }]
         },
-        tooltip: {
-            valueSuffix: 'C'
+        tooltip: { formatter: function() {
+                var hour = Math.floor(this.point.y/3600);
+                var minute = Math.floor((this.point.y - hour*3600)/60);
+                var seconds = this.point.y - hour*3600 - minute*60;
+                if (minute < 10)
+                {
+                    minute = "0" + minute;
+                }
+                if (seconds < 10)
+                {
+                    seconds = "0" + seconds;
+                }
+                return '<b>'+ this.series.name +':</b> ' + hour + ':' + minute + ':' + seconds;
+            }
         },
         legend: {
             layout: 'vertical',
@@ -58,17 +113,17 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-            name: '22',
-            data: values
+            name: 'Adams',
+            data: values_22
         }, {
-            name: 'New York',
-            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-        }, {
-            name: 'Berlin',
-            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-        }, {
-            name: 'London',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            name: 'Gonzabay',
+            data: values_28
+        },  {
+            name: 'Yagual',
+            data: values_34
+        },  {
+            name: 'Filella',
+            data: values_26
         }]
     });
 });
