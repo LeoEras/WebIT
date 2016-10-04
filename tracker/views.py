@@ -3,8 +3,73 @@ from datetime import date, datetime, timedelta
 from .models import Datos
 
 def index(request):
+    context = fetchInfofromUser(22)
+    context = {'context': context}
+    return render(request, 'tracker/grupo1.html', context)
+
+def linealComparativo(request, grupo_id):
+    users = groupSelector(grupo_id)
     all_dates = []
-    list_22 = fetchInfofromUser(22)
+    list_1 = fetchInfofromUser(users[0])
+    sorted_dates_1, times_1 = buildDataset(list_1)
+    list_2 = fetchInfofromUser(users[1])
+    sorted_dates_2, times_2 = buildDataset(list_2)
+    list_3 = fetchInfofromUser(users[2])
+    sorted_dates_3, times_3 = buildDataset(list_3)
+    list_4 = fetchInfofromUser(users[3])
+    sorted_dates_4, times_4 = buildDataset(list_4)
+    all_dates = sorted_dates_1 + list(set(sorted_dates_2) - set(sorted_dates_1))
+    all_dates = all_dates + list(set(sorted_dates_3) - set(all_dates))
+    all_dates = all_dates + list(set(sorted_dates_4) - set(all_dates))
+    all_dates = sorted(all_dates)
+    times_1 = depurateTimes(all_dates, sorted_dates_1, times_1)
+    times_2 = depurateTimes(all_dates, sorted_dates_2, times_2)
+    times_3 = depurateTimes(all_dates, sorted_dates_3, times_3)
+    times_4 = depurateTimes(all_dates, sorted_dates_4, times_4)
+    context = {'times_1': times_1,
+               'times_2': times_2,
+               'times_3': times_3,
+               'times_4': times_4,
+               'dates': all_dates,
+               'group_id': grupo_id}
+    return render(request, 'tracker/linealComparativo.html', context)
+    
+def groupSelector(grupo_id):
+    if grupo_id in '1':
+        user_1 = 22
+        user_2 = 28
+        user_3 = 34
+        user_4 = 26
+    elif grupo_id in '2':
+        user_1 = 23
+        user_2 = 32
+        user_3 = 36
+        user_4 = 41
+    elif grupo_id in '3':
+        user_1 = 29
+        user_2 = 30
+        user_3 = 31
+        user_4 = 38
+    elif grupo_id in '4':
+        user_1 = 27
+        user_2 = 39
+        user_3 = 40
+        user_4 = 37
+    elif grupo_id in '5':
+        user_1 = 33
+        user_2 = 43
+        user_3 = 34
+        user_4 = 26
+    else:
+        user_1 = 22
+        user_2 = 28
+        user_3 = 35
+        user_4 = 25
+    return [user_1, user_2, user_3, user_4]
+    
+def base(request):
+    all_dates = []
+    list_22 = fetchInfofromUser(23)
     sorted_dates_22, times_22 = buildDataset(list_22)
     list_28 = fetchInfofromUser(28)
     sorted_dates_28, times_28 = buildDataset(list_28)
@@ -26,9 +91,6 @@ def index(request):
                'times_26': times_26,
                'dates': all_dates}
     return render(request, 'tracker/index.html', context)
-    
-def base():
-    pass
 
 def depurateTimes(dates_set, sorted_dates, sorted_times):
     new_times = [0 for item in range(0, len(dates_set))]
