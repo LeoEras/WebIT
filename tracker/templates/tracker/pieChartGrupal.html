@@ -1,0 +1,313 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Análisis Pie Chart Grupal</title>
+        <style type="text/css">${demo.css}</style>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript">
+            $(function () {
+                var grupo_id = parseInt({{grupo_id}});
+                var names = ["Adams", "Gonzabay", "Yagual", "Filella"];
+                switch(grupo_id){
+                    case 2:
+                        names[0] = "Benitez";
+                        names[1] = "Mosquera";
+                        names[2] = "Rodriguez";
+                        names[3] = "Martínez";
+                        break;
+                    case 3:
+                        names[0] = "Moreno";
+                        names[1] = "Moreira, Edgar";
+                        names[2] = "Moreira, Maria";
+                        names[3] = "Manosalvas";
+                        break;
+                    case 4:
+                        names[0] = "Guerra";
+                        names[1] = "Garcia";
+                        names[2] = "Guilindro";
+                        names[3] = "Cedeño";
+                        break;
+                    case 5:
+                        names[0] = "Velez";
+                        names[1] = "Carvajal";
+                        names[2] = "Tenecela";
+                        names[3] = "Duchi";
+                        break;
+                    default:
+                        break;
+                }
+                
+                //Datos
+                for (j = 1; j < 5; j++){
+                    eval("var activitiesful" + j + " = $('.activitiesful" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("var timesful" + j + " = $('.timesful" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("var activitiesless" + j + " = $('.activitiesless" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("var timesless" + j + " = $('.timesless" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("for (i = 0; i < timesful" + j + " .length; i++) { timesful" + j + "[i] = parseFloat(timesful" + j + "[i]); }");
+                    eval("var combinedful" + j + " = new Array(activitiesful" + j + ".length);");
+                    eval("var sum = timesful" + j + ".reduce(function(a, b) { return a + b; }, 0);");
+                    eval("for (i = 0; i < timesful" + j + ".length; i++) { combinedful" + j + "[i] = [activitiesful" + j + "[i], (timesful" + j + "[i]/sum) * 100]; }");
+                    eval("for (i = 0; i < timesless" + j + " .length; i++) { timesless" + j + "[i] = parseFloat(timesless" + j + "[i]); }");
+                    eval("var combinedless" + j + " = new Array(activitiesless" + j + ".length);");
+                    eval("var sum = timesless" + j + ".reduce(function(a, b) { return a + b; }, 0);");
+                    eval("for (i = 0; i < timesless" + j + ".length; i++) { combinedless" + j + "[i] = [activitiesless" + j + "[i], (timesless" + j + "[i]/sum) * 100]; }");
+                    eval("var values_" + j + " = $('.values" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("for (i = 0; i < values_" + j + ".length; i++) { values_" + j + "[i] = parseFloat(values_" + j + "[i]); }");
+                    eval("var percent_imp" + j + " = values_" + j + "[0]/(values_" + j + "[0] + values_" + j + "[1]);");
+                    eval("var percent_nimp" + j + " = values_" + j + "[1]/(values_" + j + "[0] + values_" + j + "[1]);");
+                }
+                $('#container').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: names[0]
+                    },
+                    subtitle: {
+                        text: 'Clic en el segmento para ver com mayor detalle.'
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.y:.1f}%'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+                    series: [{
+                        name: names[0],
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Importante',
+                            y: percent_imp1,
+                            sliced: true,
+                            selected: true,
+                            drilldown: 'Importante1'
+                        }, {
+                            name: 'No importante',
+                            y: percent_nimp1,
+                            drilldown: 'No importante1'
+                        }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Importante',
+                            id: 'Importante1',
+                            data: combinedful1
+                        }, {
+                            name: 'No importante',
+                            id: 'No importante1',
+                            data: combinedless1
+                        }]
+                    }
+                });
+                $('#container2').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: names[1]
+                    },
+                    subtitle: {
+                        text: 'Clic en el segmento para ver com mayor detalle.'
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.y:.1f}%'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+                    series: [{
+                        name: names[1],
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Importante',
+                            y: percent_imp2,
+                            sliced: true,
+                            selected: true,
+                            drilldown: 'Importante2'
+                        }, {
+                            name: 'No importante',
+                            y: percent_nimp2,
+                            drilldown: 'No importante2'
+                        }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Importante',
+                            id: 'Importante2',
+                            data: combinedful2
+                        }, {
+                            name: 'No importante',
+                            id: 'No importante2',
+                            data: combinedless2
+                        }]
+                    }
+                });
+                $('#container3').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: names[2]
+                    },
+                    subtitle: {
+                        text: 'Clic en el segmento para ver com mayor detalle.'
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.y:.1f}%'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+                    series: [{
+                        name: names[2],
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Importante',
+                            y: percent_imp3,
+                            sliced: true,
+                            selected: true,
+                            drilldown: 'Importante3'
+                        }, {
+                            name: 'No importante',
+                            y: percent_nimp3,
+                            drilldown: 'No importante3'
+                        }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Importante',
+                            id: 'Importante3',
+                            data: combinedful3
+                        }, {
+                            name: 'No importante',
+                            id: 'No importante3',
+                            data: combinedless3
+                        }]
+                    }
+                });
+                $('#container4').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: names[3]
+                    },
+                    subtitle: {
+                        text: 'Clic en el segmento para ver com mayor detalle.'
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.y:.1f}%'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+                    series: [{
+                        name: names[3],
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Importante',
+                            y: percent_imp4,
+                            sliced: true,
+                            selected: true,
+                            drilldown: 'Importante4'
+                        }, {
+                            name: 'No importante',
+                            y: percent_nimp4,
+                            drilldown: 'No importante4'
+                        }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Importante',
+                            id: 'Importante4',
+                            data: combinedful4
+                        }, {
+                            name: 'No importante',
+                            id: 'No importante4',
+                            data: combinedless4
+                        }]
+                    }
+                });
+            });
+	    </script>
+	</head>
+    <body>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/data.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+        <ul>
+            {% for key, value in dataset_1.items %} 
+                <li class="values1" style="display: none">{{value}}</li>
+            {% endfor %}
+            {% for key, value in dataset_2.items %} 
+                <li class="values2" style="display: none">{{value}}</li>
+            {% endfor %}
+            {% for key, value in dataset_3.items %} 
+                <li class="values3" style="display: none">{{value}}</li>
+            {% endfor %}
+            {% for key, value in dataset_4.items %} 
+                <li class="values4" style="display: none">{{value}}</li>
+            {% endfor %}
+            {% for activity, time in uful_1 %}
+                <li class="activitiesful1" style="display: none">{{ activity }}</li>
+                <li class="timesful1" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uless_1 %}
+                <li class="activitiesless1" style="display: none" >{{ activity }}</li>
+                <li class="timesless1" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uful_2 %}
+                <li class="activitiesful2" style="display: none">{{ activity }}</li>
+                <li class="timesful2" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uless_2 %}
+                <li class="activitiesless2" style="display: none" >{{ activity }}</li>
+                <li class="timesless2" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uful_3 %}
+                <li class="activitiesful3" style="display: none">{{ activity }}</li>
+                <li class="timesful3" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uless_3 %}
+                <li class="activitiesless3" style="display: none" >{{ activity }}</li>
+                <li class="timesless3" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uful_4 %}
+                <li class="activitiesful4" style="display: none">{{ activity }}</li>
+                <li class="timesful4" style="display: none">{{ time }}</li>
+            {% endfor %}
+            {% for activity, time in uless_4 %}
+                <li class="activitiesless4" style="display: none" >{{ activity }}</li>
+                <li class="timesless4" style="display: none">{{ time }}</li>
+            {% endfor %}
+        </ul>
+        <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+        <div id="container2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+        <div id="container3" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+        <div id="container4" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+    </body>
+</html>

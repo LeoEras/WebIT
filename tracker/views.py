@@ -1,11 +1,42 @@
 from django.shortcuts import render
 from datetime import date, datetime, timedelta
+import operator
+from collections import Counter
 from .models import Datos
 
 def index(request):
     context = fetchInfofromUser(22)
     context = {'context': context}
     return render(request, 'tracker/grupo1.html', context)
+    
+def pieChartGrupal(request, grupo_id):
+    users = groupSelector(grupo_id)
+    list_1 = fetchAllInfofromUser(users[0])
+    list_2 = fetchAllInfofromUser(users[1])
+    list_3 = fetchAllInfofromUser(users[2])
+    list_4 = fetchAllInfofromUser(users[3])
+    dataset_1 = classifyUsefullness(list_1)
+    dataset_2 = classifyUsefullness(list_2)
+    dataset_3 = classifyUsefullness(list_3)
+    dataset_4 = classifyUsefullness(list_4)
+    uful_1, uless_1 = getTopActivitiesCircular(list_1)
+    uful_2, uless_2 = getTopActivitiesCircular(list_2)
+    uful_3, uless_3 = getTopActivitiesCircular(list_3)
+    uful_4, uless_4 = getTopActivitiesCircular(list_4)
+    context = {'dataset_1': dataset_1,
+               'dataset_2': dataset_2,
+               'dataset_3': dataset_3,
+               'dataset_4': dataset_4,
+               'uful_1': uful_1,
+               'uless_1': uless_1,
+               'uful_2': uful_2,
+               'uless_2': uless_2,
+               'uful_3': uful_3,
+               'uless_3': uless_3,
+               'uful_4': uful_4,
+               'uless_4': uless_4,
+               'grupo_id': grupo_id}
+    return render(request, 'tracker/pieChartGrupal.html', context)
 
 def linealComparativo(request, grupo_id):
     users = groupSelector(grupo_id)
@@ -66,31 +97,6 @@ def groupSelector(grupo_id):
         user_3 = 35
         user_4 = 25
     return [user_1, user_2, user_3, user_4]
-    
-def base(request):
-    all_dates = []
-    list_22 = fetchInfofromUser(23)
-    sorted_dates_22, times_22 = buildDataset(list_22)
-    list_28 = fetchInfofromUser(28)
-    sorted_dates_28, times_28 = buildDataset(list_28)
-    list_34 = fetchInfofromUser(34)
-    sorted_dates_34, times_34 = buildDataset(list_34)
-    list_26 = fetchInfofromUser(26)
-    sorted_dates_26, times_26 = buildDataset(list_26)
-    all_dates = sorted_dates_22 + list(set(sorted_dates_28) - set(sorted_dates_22))
-    all_dates = all_dates + list(set(sorted_dates_34) - set(all_dates))
-    all_dates = all_dates + list(set(sorted_dates_26) - set(all_dates))
-    all_dates = sorted(all_dates)
-    times_22 = depurateTimes(all_dates, sorted_dates_22, times_22)
-    times_28 = depurateTimes(all_dates, sorted_dates_28, times_28)
-    times_34 = depurateTimes(all_dates, sorted_dates_34, times_34)
-    times_26 = depurateTimes(all_dates, sorted_dates_26, times_26)
-    context = {'times_22': times_22,
-               'times_28': times_28,
-               'times_34': times_34,
-               'times_26': times_26,
-               'dates': all_dates}
-    return render(request, 'tracker/index.html', context)
 
 def depurateTimes(dates_set, sorted_dates, sorted_times):
     new_times = [0 for item in range(0, len(dates_set))]
@@ -100,11 +106,34 @@ def depurateTimes(dates_set, sorted_dates, sorted_times):
             new_times[i] = sorted_times[index]
     return new_times
 
+def classifyUsefullness(dataset):
+    dictionary = {}
+    dictionary["useful"] = 0
+    dictionary["useless"] = 0
+    for item in dataset:
+        if item.importancia == 1:
+            dictionary["useful"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        else:
+            dictionary["useless"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+    return dictionary
+
 def fetchInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
     user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
     #user_activity = filterByClass(user_activity, "Applications")
     user_activity = filterByRelevance(user_activity, 1)
+    return user_activity
+
+def fetchAppInfofromUser(user):
+    user_activity = Datos.objects.filter(usuario=user)
+    user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    user_activity = filterByClass(user_activity, "Applications")
+    return user_activity
+
+def fetchAllInfofromUser(user):
+    user_activity = Datos.objects.filter(usuario=user)
+    user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    #user_activity = filterByClass(user_activity, "Applications")
     return user_activity
 
 def buildDataset(activity_list):
@@ -119,6 +148,25 @@ def buildDataset(activity_list):
     for i in range(0, len(sorted_dates)):
         time_per_date.append(dictionary[sorted_dates[i]])
     return sorted_dates, time_per_date
+
+def getTopActivitiesCircular(activity_list):
+    dictionary_uful = {}
+    dictionary_uless = {}
+    for item in activity_list:
+        if '.js' in item.responsable or '.css' in item.responsable or '.ejs' in item.responsable or '.html' in item.responsable:
+            continue
+        if item.importancia == 1:
+            if item.responsable not in dictionary_uful:
+                dictionary_uful[item.responsable] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+            else:
+                dictionary_uful[item.responsable] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        else:
+            if item.responsable not in dictionary_uless:
+                dictionary_uless[item.responsable] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+            else:
+                dictionary_uless[item.responsable] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+    
+    return Counter(dictionary_uful).most_common(5), Counter(dictionary_uless).most_common(5)
     
 def setImportance(item, filters):
     for filtro in filters:
