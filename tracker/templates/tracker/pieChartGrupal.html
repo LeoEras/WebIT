@@ -39,6 +39,12 @@
                 
                 //Datos
                 for (j = 1; j < 5; j++){
+                    //Seleccion de datos importantes/no importantes
+                    eval("var values_" + j + " = $('.values" + j + "').map(function() { return $(this).text(); }).get();");
+                    eval("for (i = 0; i < values_" + j + ".length; i++) { values_" + j + "[i] = parseFloat(values_" + j + "[i]); }");
+                    eval("var percent_imp" + j + " = values_" + j + "[0]/(values_" + j + "[0] + values_" + j + "[1]);");
+                    eval("var percent_nimp" + j + " = values_" + j + "[1]/(values_" + j + "[0] + values_" + j + "[1]);");
+                    //Seleccion de datos de actividades productivas/no productivas con sus respectivos tiempos
                     eval("var activitiesful" + j + " = $('.activitiesful" + j + "').map(function() { return $(this).text(); }).get();");
                     eval("var timesful" + j + " = $('.timesful" + j + "').map(function() { return $(this).text(); }).get();");
                     eval("var activitiesless" + j + " = $('.activitiesless" + j + "').map(function() { return $(this).text(); }).get();");
@@ -51,10 +57,6 @@
                     eval("var combinedless" + j + " = new Array(activitiesless" + j + ".length);");
                     eval("var sum = timesless" + j + ".reduce(function(a, b) { return a + b; }, 0);");
                     eval("for (i = 0; i < timesless" + j + ".length; i++) { combinedless" + j + "[i] = [activitiesless" + j + "[i], (timesless" + j + "[i]/sum) * 100]; }");
-                    eval("var values_" + j + " = $('.values" + j + "').map(function() { return $(this).text(); }).get();");
-                    eval("for (i = 0; i < values_" + j + ".length; i++) { values_" + j + "[i] = parseFloat(values_" + j + "[i]); }");
-                    eval("var percent_imp" + j + " = values_" + j + "[0]/(values_" + j + "[0] + values_" + j + "[1]);");
-                    eval("var percent_nimp" + j + " = values_" + j + "[1]/(values_" + j + "[0] + values_" + j + "[1]);");
                 }
                 $('#container').highcharts({
                     chart: {
