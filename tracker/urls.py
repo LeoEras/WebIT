@@ -6,5 +6,3 @@ urlpatterns = [
     url(r'^linealComparativo/(?P<grupo_id>[0-9])/$', views.linealComparativo, name='linealComparativo'),
     url(r'^pieChartGrupal/(?P<grupo_id>[0-9])/$', views.pieChartGrupal, name='pieChartGrupal'),
 ]
-
-#r'^(?P<question_id>[0-9]+
