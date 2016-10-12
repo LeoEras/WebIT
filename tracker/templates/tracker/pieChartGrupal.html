@@ -42,8 +42,8 @@
                     //Seleccion de datos importantes/no importantes
                     eval("var values_" + j + " = $('.values" + j + "').map(function() { return $(this).text(); }).get();");
                     eval("for (i = 0; i < values_" + j + ".length; i++) { values_" + j + "[i] = parseFloat(values_" + j + "[i]); }");
-                    eval("var percent_imp" + j + " = values_" + j + "[0]/(values_" + j + "[0] + values_" + j + "[1]);");
-                    eval("var percent_nimp" + j + " = values_" + j + "[1]/(values_" + j + "[0] + values_" + j + "[1]);");
+                    eval("var percent_imp" + j + " = values_" + j + "[0]/(values_" + j + "[0] + values_" + j + "[1]) * 100;");
+                    eval("var percent_nimp" + j + " = values_" + j + "[1]/(values_" + j + "[0] + values_" + j + "[1]) * 100;");
                     //Seleccion de datos de actividades productivas/no productivas con sus respectivos tiempos
                     eval("var activitiesful" + j + " = $('.activitiesful" + j + "').map(function() { return $(this).text(); }).get();");
                     eval("var timesful" + j + " = $('.timesful" + j + "').map(function() { return $(this).text(); }).get();");
