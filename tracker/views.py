@@ -5,7 +5,7 @@ from collections import Counter
 from .models import Datos
 
 def index(request):
-    context = fetchInfofromUser(22)
+    context = fetchDocInfofromUser(22)
     context = {'context': context}
     return render(request, 'tracker/grupo1.html', context)
     
@@ -41,13 +41,13 @@ def pieChartGrupal(request, grupo_id):
 def linealComparativo(request, grupo_id):
     users = groupSelector(grupo_id)
     all_dates = []
-    list_1 = fetchInfofromUser(users[0])
+    list_1 = fetchDocInfofromUser(users[0])
     sorted_dates_1, times_1 = buildDataset(list_1)
-    list_2 = fetchInfofromUser(users[1])
+    list_2 = fetchDocInfofromUser(users[1])
     sorted_dates_2, times_2 = buildDataset(list_2)
-    list_3 = fetchInfofromUser(users[2])
+    list_3 = fetchDocInfofromUser(users[2])
     sorted_dates_3, times_3 = buildDataset(list_3)
-    list_4 = fetchInfofromUser(users[3])
+    list_4 = fetchDocInfofromUser(users[3])
     sorted_dates_4, times_4 = buildDataset(list_4)
     all_dates = sorted_dates_1 + list(set(sorted_dates_2) - set(sorted_dates_1))
     all_dates = all_dates + list(set(sorted_dates_3) - set(all_dates))
@@ -68,9 +68,9 @@ def linealComparativo(request, grupo_id):
 def groupSelector(grupo_id):
     if grupo_id in '1':
         user_1 = 22
-        user_2 = 28
-        user_3 = 34
-        user_4 = 26
+        user_2 = 26
+        user_3 = 28
+        user_4 = 34
     elif grupo_id in '2':
         user_1 = 23
         user_2 = 32
@@ -83,14 +83,14 @@ def groupSelector(grupo_id):
         user_4 = 38
     elif grupo_id in '4':
         user_1 = 27
-        user_2 = 39
-        user_3 = 40
-        user_4 = 37
+        user_2 = 37
+        user_3 = 39
+        user_4 = 40
     elif grupo_id in '5':
-        user_1 = 33
-        user_2 = 43
+        user_1 = 26
+        user_2 = 33
         user_3 = 34
-        user_4 = 26
+        user_4 = 43
     else:
         user_1 = 22
         user_2 = 28
@@ -117,10 +117,10 @@ def classifyUsefullness(dataset):
             dictionary["useless"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
     return dictionary
 
-def fetchInfofromUser(user):
+def fetchDocInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
     user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    #user_activity = filterByClass(user_activity, "Applications")
+    user_activity = filterByClass(user_activity, "Documents")
     user_activity = filterByRelevance(user_activity, 1)
     return user_activity
 
@@ -165,7 +165,7 @@ def getTopActivitiesCircular(activity_list):
                 dictionary_uless[item.responsable] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
             else:
                 dictionary_uless[item.responsable] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
-    
+                
     return Counter(dictionary_uful).most_common(5), Counter(dictionary_uless).most_common(5)
     
 def setImportance(item, filters):

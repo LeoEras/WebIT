@@ -1,0 +1,59 @@
+commit ed2f31394504f9ad8e68ffb9227cdae2239a01d6
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Sat Nov 26 11:31:56 2016 -0500
+
+    Preparando para el paper, cambio de nombre por students, ahora en ingles
+
+commit 148d542fcf2eb52dbc9b69f19002dbb37c6ddc3a
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Oct 12 11:35:45 2016 -0500
+
+    Correcciones sobre graficas, circular en cuanto a proporciones de importante; mientras que lineal se agrego tiempo total
+
+commit b4b28fe1f48456ebe5558575a592fd7582a56c15
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Oct 6 15:25:19 2016 -0500
+
+    Archivo pieChartGrupal.html con comentarios
+
+commit 3587869490d029e5162b311bfb153df41b140371
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Oct 6 15:22:15 2016 -0500
+
+    Habilitado pie chart para estudiantes, con top 5 aplicaciones o documentos importantes y no importantes
+
+commit 78f05ef27da924a9bc7e58dc76cf077256fb07e6
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Tue Oct 4 16:23:14 2016 -0500
+
+    Habilitados vistas para todos los grupos, agregar de ser posible informacion de histograma para cada estudiante
+
+commit 893fe8585c3dd77833fa67091de3ca7d35334c78
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Sep 29 17:10:59 2016 -0500
+
+    Terminado template para grupo 1
+
+commit 0540ec9e87634ded429ba504c16dfd45e3cd669d
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Sep 28 17:09:57 2016 -0500
+
+    Exito toma de datos del .22
+
+commit 7be6f9a015cc9c79f4c965081c80f63296778c87
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Tue Sep 27 13:56:58 2016 -0500
+
+    Empleo de nuevos datos, corregir toma de los mismos
+
+commit 070f5b48d72521390905f449cef07293eca379ce
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Fri Sep 23 13:54:41 2016 -0500
+
+    Integracion con Highcharts
+
+commit 12b44296127f4ed71512d6356313981e54348020
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Sep 21 16:39:42 2016 -0500
+
+    Primer commit, pruebas web
