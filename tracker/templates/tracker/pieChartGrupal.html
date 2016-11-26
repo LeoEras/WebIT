@@ -7,35 +7,7 @@
 	<script type="text/javascript">
             $(function () {
                 var grupo_id = parseInt({{grupo_id}});
-                var names = ["Adams", "Gonzabay", "Yagual", "Filella"];
-                switch(grupo_id){
-                    case 2:
-                        names[0] = "Benitez";
-                        names[1] = "Mosquera";
-                        names[2] = "Rodriguez";
-                        names[3] = "Martínez";
-                        break;
-                    case 3:
-                        names[0] = "Moreno";
-                        names[1] = "Moreira, Edgar";
-                        names[2] = "Moreira, Maria";
-                        names[3] = "Manosalvas";
-                        break;
-                    case 4:
-                        names[0] = "Guerra";
-                        names[1] = "Garcia";
-                        names[2] = "Guilindro";
-                        names[3] = "Cedeño";
-                        break;
-                    case 5:
-                        names[0] = "Velez";
-                        names[1] = "Carvajal";
-                        names[2] = "Tenecela";
-                        names[3] = "Duchi";
-                        break;
-                    default:
-                        break;
-                }
+		var names = ["Student 1", "Student 2", "Student 3", "Student 4"];    
                 
                 //Datos
                 for (j = 1; j < 5; j++){
@@ -66,7 +38,7 @@
                         text: names[0]
                     },
                     subtitle: {
-                        text: 'Clic en el segmento para ver com mayor detalle.'
+                        text: 'Click the slices to view with more detail.'
                     },
                     plotOptions: {
                         series: {
@@ -84,25 +56,25 @@
                         name: names[0],
                         colorByPoint: true,
                         data: [{
-                            name: 'Importante',
+                            name: 'Relevant',
                             y: percent_imp1,
                             sliced: true,
                             selected: true,
-                            drilldown: 'Importante1'
+                            drilldown: 'Relevant1'
                         }, {
-                            name: 'No importante',
+                            name: 'Non Relevant',
                             y: percent_nimp1,
-                            drilldown: 'No importante1'
+                            drilldown: 'Non Relevant1'
                         }]
                     }],
                     drilldown: {
                         series: [{
-                            name: 'Importante',
-                            id: 'Importante1',
+                            name: 'Relevant',
+                            id: 'Relevant1',
                             data: combinedful1
                         }, {
-                            name: 'No importante',
-                            id: 'No importante1',
+                            name: 'Non Relevant',
+                            id: 'Non Relevant1',
                             data: combinedless1
                         }]
                     }
@@ -115,7 +87,7 @@
                         text: names[1]
                     },
                     subtitle: {
-                        text: 'Clic en el segmento para ver com mayor detalle.'
+                        text: 'Click the slices to view with more detail.'
                     },
                     plotOptions: {
                         series: {
@@ -133,25 +105,25 @@
                         name: names[1],
                         colorByPoint: true,
                         data: [{
-                            name: 'Importante',
+                            name: 'Relevant',
                             y: percent_imp2,
                             sliced: true,
                             selected: true,
-                            drilldown: 'Importante2'
+                            drilldown: 'Relevant2'
                         }, {
-                            name: 'No importante',
+                            name: 'Non Relevant',
                             y: percent_nimp2,
-                            drilldown: 'No importante2'
+                            drilldown: 'Non Relevant2'
                         }]
                     }],
                     drilldown: {
                         series: [{
-                            name: 'Importante',
-                            id: 'Importante2',
+                            name: 'Relevant',
+                            id: 'Relevant2',
                             data: combinedful2
                         }, {
-                            name: 'No importante',
-                            id: 'No importante2',
+                            name: 'Non Relevant',
+                            id: 'Non Relevant2',
                             data: combinedless2
                         }]
                     }
@@ -164,7 +136,7 @@
                         text: names[2]
                     },
                     subtitle: {
-                        text: 'Clic en el segmento para ver com mayor detalle.'
+                        text: 'Click the slices to view with more detail.'
                     },
                     plotOptions: {
                         series: {
@@ -182,25 +154,25 @@
                         name: names[2],
                         colorByPoint: true,
                         data: [{
-                            name: 'Importante',
+                            name: 'Relevant',
                             y: percent_imp3,
                             sliced: true,
                             selected: true,
-                            drilldown: 'Importante3'
+                            drilldown: 'Relevant3'
                         }, {
-                            name: 'No importante',
+                            name: 'Non Relevant',
                             y: percent_nimp3,
-                            drilldown: 'No importante3'
+                            drilldown: 'Non Relevant3'
                         }]
                     }],
                     drilldown: {
                         series: [{
-                            name: 'Importante',
-                            id: 'Importante3',
+                            name: 'Relevant',
+                            id: 'Relevant3',
                             data: combinedful3
                         }, {
-                            name: 'No importante',
-                            id: 'No importante3',
+                            name: 'Non Relevant',
+                            id: 'Non Relevant3',
                             data: combinedless3
                         }]
                     }
@@ -213,7 +185,7 @@
                         text: names[3]
                     },
                     subtitle: {
-                        text: 'Clic en el segmento para ver com mayor detalle.'
+                        text: 'Click the slices to view with more detail.'
                     },
                     plotOptions: {
                         series: {
@@ -231,25 +203,25 @@
                         name: names[3],
                         colorByPoint: true,
                         data: [{
-                            name: 'Importante',
+                            name: 'Relevant',
                             y: percent_imp4,
                             sliced: true,
                             selected: true,
-                            drilldown: 'Importante4'
+                            drilldown: 'Relevant4'
                         }, {
-                            name: 'No importante',
+                            name: 'Non Relevant',
                             y: percent_nimp4,
-                            drilldown: 'No importante4'
+                            drilldown: 'Non Relevant4'
                         }]
                     }],
                     drilldown: {
                         series: [{
-                            name: 'Importante',
-                            id: 'Importante4',
+                            name: 'Relevant',
+                            id: 'Relevant4',
                             data: combinedful4
                         }, {
-                            name: 'No importante',
-                            id: 'No importante4',
+                            name: 'Non Relevant',
+                            id: 'Non Relevant4',
                             data: combinedless4
                         }]
                     }
@@ -258,9 +230,9 @@
 	    </script>
 	</head>
     <body>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/data.js"></script>
-        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+        <script src="http://code.highcharts.com/5.0.3/highcharts.js"></script>
+        <script src="https://code.highcharts.com/5.0.3/modules/data.js"></script>
+        <script src="http://code.highcharts.com/5.0.3/modules/drilldown.js"></script>
         <ul>
             {% for key, value in dataset_1.items %} 
                 <li class="values1" style="display: none">{{value}}</li>

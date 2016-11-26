@@ -133,7 +133,7 @@ def fetchAppInfofromUser(user):
 def fetchAllInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
     user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    #user_activity = filterByClass(user_activity, "Applications")
+    user_activity = filterByClass(user_activity, "Documents")
     return user_activity
 
 def buildDataset(activity_list):
