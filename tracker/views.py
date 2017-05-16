@@ -105,35 +105,35 @@ def groupSelector(grupo_id):
         user_3 = 18
         user_4 = 0
     elif grupo_id in '2':
-        user_1 = 5
-        user_2 = 6
-        user_3 = 7
-        user_4 = 8
-    elif grupo_id in '3':
-        user_1 = 9
+        user_1 = 4
         user_2 = 10
-        user_3 = 11
+        user_3 = 22
+        user_4 = 0
+    elif grupo_id in '3':
+        user_1 = 8
+        user_2 = 9
+        user_3 = 0
         user_4 = 0
     elif grupo_id in '4':
-        user_1 = 12
+        user_1 = 7
         user_2 = 13
-        user_3 = 14
-        user_4 = 15
+        user_3 = 15
+        user_4 = 0
     elif grupo_id in '5':
-        user_1 = 16
+        user_1 = 5
         user_2 = 17
-        user_3 = 18
+        user_3 = 0
         user_4 = 0
     elif grupo_id in '6':
-        user_1 = 19
-        user_2 = 20
+        user_1 = 3
+        user_2 = 6
         user_3 = 21
-        user_4 = 22
+        user_4 = 0
     else:
         user_1 = 1
         user_2 = 2
-        user_3 = 3
-        user_4 = 4
+        user_3 = 18
+        user_4 = 0
     return [user_1, user_2, user_3, user_4]
 
 def depurateTimes(dates_set, sorted_dates, sorted_times):
@@ -158,20 +158,20 @@ def classifyUsefullness(dataset):
 def fetchDocInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
     #user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    user_activity = filterByDate(user_activity, "2017-02-17", "2017-03-05")
+    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Documents")
     user_activity = filterByRelevance(user_activity, 1)
     return user_activity
 
 def fetchAppInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
-    user_activity = filterByDate(user_activity, "2017-02-17", "2017-03-05")
+    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Applications")
     return user_activity
 
 def fetchAllInfofromUser(user):
     user_activity = Datos.objects.filter(usuario=user)
-    user_activity = filterByDate(user_activity, "2017-02-17", "2017-03-05")
+    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Documents")
     return user_activity
 
