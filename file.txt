@@ -1,0 +1,181 @@
+commit 148d542fcf2eb52dbc9b69f19002dbb37c6ddc3a
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Oct 12 11:35:45 2016 -0500
+
+    Correcciones sobre graficas, circular en cuanto a proporciones de importante; mientras que lineal se agrego tiempo total
+
+ mysite/__init__.pyc                              | Bin 143 -> 143 bytes
+ mysite/settings.pyc                              | Bin 2674 -> 2674 bytes
+ mysite/urls.pyc                                  | Bin 1107 -> 1107 bytes
+ mysite/wsgi.pyc                                  | Bin 599 -> 599 bytes
+ polls/__init__.pyc                               | Bin 142 -> 142 bytes
+ polls/admin.pyc                                  | Bin 296 -> 296 bytes
+ polls/apps.pyc                                   | Bin 488 -> 488 bytes
+ polls/migrations/0001_initial.pyc                | Bin 1428 -> 1428 bytes
+ polls/migrations/__init__.pyc                    | Bin 153 -> 153 bytes
+ polls/models.pyc                                 | Bin 1656 -> 1656 bytes
+ polls/urls.pyc                                   | Bin 617 -> 617 bytes
+ polls/views.pyc                                  | Bin 2192 -> 2192 bytes
+ tracker/__init__.pyc                             | Bin 144 -> 144 bytes
+ tracker/admin.pyc                                | Bin 201 -> 201 bytes
+ tracker/apps.pyc                                 | Bin 496 -> 496 bytes
+ tracker/migrations/__init__.pyc                  | Bin 155 -> 155 bytes
+ tracker/models.pyc                               | Bin 1791 -> 1791 bytes
+ tracker/templates/tracker/linealComparativo.html |  56 +++++++++++------------
+ tracker/templates/tracker/pieChartGrupal.html    |   4 +-
+ tracker/urls.pyc                                 | Bin 508 -> 508 bytes
+ tracker/views.pyc                                | Bin 8014 -> 8014 bytes
+ 21 files changed, 29 insertions(+), 31 deletions(-)
+
+commit 80ce644cacb284af77a70a795f62731e8e1852cb
+Author: Leonardo Eras <leoded94@hotmail.com>
+Date:   Fri Oct 7 10:02:24 2016 -0500
+
+    Update urls.py
+    
+    Eliminación de un comentario
+
+ tracker/urls.py | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit b4b28fe1f48456ebe5558575a592fd7582a56c15
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Oct 6 15:25:19 2016 -0500
+
+    Archivo pieChartGrupal.html con comentarios
+
+ tracker/templates/tracker/pieChartGrupal.html | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+commit 3587869490d029e5162b311bfb153df41b140371
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Oct 6 15:22:15 2016 -0500
+
+    Habilitado pie chart para estudiantes, con top 5 aplicaciones o documentos importantes y no importantes
+
+ tracker/templates/tracker/linealComparativo.html |   3 +-
+ tracker/templates/tracker/pieChartGrupal.html    | 313 +++++++++++++++++++++++
+ tracker/urls.py                                  |   1 +
+ tracker/urls.pyc                                 | Bin 419 -> 508 bytes
+ tracker/views.py                                 |  98 +++++--
+ tracker/views.pyc                                | Bin 6211 -> 8014 bytes
+ 6 files changed, 389 insertions(+), 26 deletions(-)
+
+commit 78f05ef27da924a9bc7e58dc76cf077256fb07e6
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Tue Oct 4 16:23:14 2016 -0500
+
+    Habilitados vistas para todos los grupos, agregar de ser posible informacion de histograma para cada estudiante
+
+ .../tracker/{index.html => linealComparativo.html} |  93 ++++++++++++++-------
+ tracker/urls.py                                    |   6 +-
+ tracker/urls.pyc                                   | Bin 361 -> 419 bytes
+ tracker/views.py                                   |  70 +++++++++++++++-
+ tracker/views.pyc                                  | Bin 4551 -> 6211 bytes
+ 5 files changed, 132 insertions(+), 37 deletions(-)
+
+commit 893fe8585c3dd77833fa67091de3ca7d35334c78
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Thu Sep 29 17:10:59 2016 -0500
+
+    Terminado template para grupo 1
+
+ tracker/templates/tracker/index.html | 107 ++++++++++++++++++++++++++---------
+ tracker/urls.pyc                     | Bin 361 -> 361 bytes
+ tracker/views.py                     |  66 +++++++++++++++++----
+ tracker/views.pyc                    | Bin 3013 -> 4551 bytes
+ 4 files changed, 135 insertions(+), 38 deletions(-)
+
+commit 0540ec9e87634ded429ba504c16dfd45e3cd669d
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Sep 28 17:09:57 2016 -0500
+
+    Exito toma de datos del .22
+
+ tracker/templates/tracker/index.html |  40 +++++++++++++++++------------------
+ tracker/views.py                     |  35 ++++++++++++++++--------------
+ tracker/views.pyc                    | Bin 3046 -> 3013 bytes
+ 3 files changed, 39 insertions(+), 36 deletions(-)
+
+commit 7be6f9a015cc9c79f4c965081c80f63296778c87
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Tue Sep 27 13:56:58 2016 -0500
+
+    Empleo de nuevos datos, corregir toma de los mismos
+
+ tracker/models.py                    |  13 +-------
+ tracker/models.pyc                   | Bin 2443 -> 1791 bytes
+ tracker/templates/tracker/index.html |  25 +++++++-------
+ tracker/views.py                     |  61 +++++++++++++++++++++++++++++++++--
+ tracker/views.pyc                    | Bin 712 -> 3046 bytes
+ 5 files changed, 74 insertions(+), 25 deletions(-)
+
+commit 070f5b48d72521390905f449cef07293eca379ce
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Fri Sep 23 13:54:41 2016 -0500
+
+    Integracion con Highcharts
+
+ mysite/settings.pyc                  | Bin 2674 -> 2674 bytes
+ tracker/templates/tracker/base.html  |   6 +++
+ tracker/templates/tracker/charts.js  |  25 ++++++++++++
+ tracker/templates/tracker/index.html |  75 ++++++++++++++++++++++++++++++++---
+ tracker/urls.py                      |   1 +
+ tracker/urls.pyc                     | Bin 324 -> 361 bytes
+ tracker/views.py                     |   9 +++--
+ tracker/views.pyc                    | Bin 582 -> 712 bytes
+ 8 files changed, 107 insertions(+), 9 deletions(-)
+
+commit 12b44296127f4ed71512d6356313981e54348020
+Author: LeoEras <leoded94@hotmail.com>
+Date:   Wed Sep 21 16:39:42 2016 -0500
+
+    Primer commit, pruebas web
+
+ db.sqlite3                           | Bin 0 -> 3072 bytes
+ manage.py                            |  22 +++++++
+ mysite/__init__.py                   |   0
+ mysite/__init__.pyc                  | Bin 0 -> 143 bytes
+ mysite/settings.py                   | 124 +++++++++++++++++++++++++++++++++++
+ mysite/settings.pyc                  | Bin 0 -> 2674 bytes
+ mysite/urls.py                       |  23 +++++++
+ mysite/urls.pyc                      | Bin 0 -> 1107 bytes
+ mysite/wsgi.py                       |  16 +++++
+ mysite/wsgi.pyc                      | Bin 0 -> 599 bytes
+ polls/__init__.py                    |   0
+ polls/__init__.pyc                   | Bin 0 -> 142 bytes
+ polls/admin.py                       |   5 ++
+ polls/admin.pyc                      | Bin 0 -> 296 bytes
+ polls/apps.py                        |   7 ++
+ polls/apps.pyc                       | Bin 0 -> 488 bytes
+ polls/migrations/0001_initial.py     |  38 +++++++++++
+ polls/migrations/0001_initial.pyc    | Bin 0 -> 1428 bytes
+ polls/migrations/__init__.py         |   0
+ polls/migrations/__init__.pyc        | Bin 0 -> 153 bytes
+ polls/models.py                      |  21 ++++++
+ polls/models.pyc                     | Bin 0 -> 1656 bytes
+ polls/templates/polls/detail.html    |  12 ++++
+ polls/templates/polls/index.html     |   9 +++
+ polls/templates/polls/results.html   |   9 +++
+ polls/tests.py                       |   3 +
+ polls/urls.py                        |  11 ++++
+ polls/urls.pyc                       | Bin 0 -> 617 bytes
+ polls/views.py                       |  42 ++++++++++++
+ polls/views.pyc                      | Bin 0 -> 2192 bytes
+ tracker/__init__.py                  |   0
+ tracker/__init__.pyc                 | Bin 0 -> 144 bytes
+ tracker/admin.py                     |   3 +
+ tracker/admin.pyc                    | Bin 0 -> 201 bytes
+ tracker/apps.py                      |   7 ++
+ tracker/apps.pyc                     | Bin 0 -> 496 bytes
+ tracker/migrations/__init__.py       |   0
+ tracker/migrations/__init__.pyc      | Bin 0 -> 155 bytes
+ tracker/models.py                    |  48 ++++++++++++++
+ tracker/models.pyc                   | Bin 0 -> 2443 bytes
+ tracker/templates/tracker/index.html |   9 +++
+ tracker/tests.py                     |   3 +
+ tracker/urls.py                      |   6 ++
+ tracker/urls.pyc                     | Bin 0 -> 324 bytes
+ tracker/views.py                     |   7 ++
+ tracker/views.pyc                    | Bin 0 -> 582 bytes
+ 46 files changed, 425 insertions(+)
