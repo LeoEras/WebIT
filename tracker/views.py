@@ -5,9 +5,7 @@ from collections import Counter
 from .models import Datos
 
 def index(request):
-    context = fetchDocInfofromUser(22)
-    context = {'context': context}
-    return render(request, 'tracker/grupo1.html', context)
+    return render(request, 'tracker/index.html')
     
 def pieChartGrupal(request, grupo_id):
     users = groupSelector(grupo_id)
@@ -23,6 +21,7 @@ def pieChartGrupal(request, grupo_id):
     uful_2, uless_2 = getTopActivitiesCircular(list_2)
     uful_3, uless_3 = getTopActivitiesCircular(list_3)
     uful_4, uless_4 = getTopActivitiesCircular(list_4)
+    next_id = int(grupo_id) + 1
     context = {'dataset_1': dataset_1,
                'dataset_2': dataset_2,
                'dataset_3': dataset_3,
@@ -35,7 +34,8 @@ def pieChartGrupal(request, grupo_id):
                'uless_3': uless_3,
                'uful_4': uful_4,
                'uless_4': uless_4,
-               'grupo_id': grupo_id}
+               'grupo_id': grupo_id,
+               'next_group': next_id}
     return render(request, 'tracker/pieChartGrupal.html', context)
 
 def linealComparativo(request, grupo_id):
@@ -57,12 +57,14 @@ def linealComparativo(request, grupo_id):
     times_2 = depurateTimes(all_dates, sorted_dates_2, times_2)
     times_3 = depurateTimes(all_dates, sorted_dates_3, times_3)
     times_4 = depurateTimes(all_dates, sorted_dates_4, times_4)
+    next_id = int(grupo_id) + 1
     context = {'times_1': times_1,
                'times_2': times_2,
                'times_3': times_3,
                'times_4': times_4,
                'dates': all_dates,
-               'group_id': grupo_id}
+               'group_id': grupo_id,
+               'next_group': next_id}
     return render(request, 'tracker/linealComparativo.html', context)
     
 ##def groupSelector(grupo_id):
