@@ -1,5 +1,6 @@
-$(function () {
+﻿$(function () {
     var grupo_id = parseInt($("#grupo_id").text());
+    var term_id = parseInt($("#term_id").text());
     var names = ["Student 1", "Student 2", "Student 3", "Student 4"];
     //switch(grupo_id){
     //    case 2:
@@ -73,14 +74,24 @@ $(function () {
         }
         return hour + ':' + minute + ':' + seconds
     }
+	
+	function parseTerm(term_id){
+		var str = "";
+		if (term_id == 1){
+			str = "2016-1T";
+		} else if (term_id == 2){
+			str = "2016-2T";
+		}
+		return str;
+	}
    
     $('#container').highcharts({
         title: {
-            text: 'Group #' + grupo_id,//$( "li" ).text(),
+            text: parseTerm(term_id),//$( "li" ).text(),
             x: -20
         },
         subtitle: {
-            text: 'Comparative analysis #' + grupo_id,
+            text: 'Group #' + grupo_id + 'Comparative analysis',
             x: -20
         },
         xAxis: {

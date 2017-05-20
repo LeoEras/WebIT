@@ -1,7 +1,15 @@
 
 $(function () {
 	var grupo_id = parseInt($("#grupo_id").text());
-	var names = ["Student 1", "Student 2", "Student 3", "Student 4"];    
+	var term_id = parseInt($("#term_id").text());
+	var names = ["Student 1", "Student 2", "Student 3", "Student 4"];
+		
+
+	if (term_id == 1){
+		($("#term_id")).text("2016-1T");
+	} else if (term_id == 2){
+		($("#term_id")).text("2016-2T");
+	}
 			
 	//Datos
 	for (j = 1; j < 5; j++){

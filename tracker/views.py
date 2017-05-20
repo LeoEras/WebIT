@@ -7,12 +7,12 @@ from .models import Datos
 def index(request):
     return render(request, 'tracker/index.html')
     
-def pieChartGrupal(request, grupo_id):
-    users = groupSelector(grupo_id)
-    list_1 = fetchAllInfofromUser(users[0])
-    list_2 = fetchAllInfofromUser(users[1])
-    list_3 = fetchAllInfofromUser(users[2])
-    list_4 = fetchAllInfofromUser(users[3])
+def pieChartGrupal(request, term_id, grupo_id):
+    users = groupSelector(term_id, grupo_id)
+    list_1 = fetchAllInfofromUser(term_id, users[0])
+    list_2 = fetchAllInfofromUser(term_id, users[1])
+    list_3 = fetchAllInfofromUser(term_id, users[2])
+    list_4 = fetchAllInfofromUser(term_id, users[3])
     dataset_1 = classifyUsefullness(list_1)
     dataset_2 = classifyUsefullness(list_2)
     dataset_3 = classifyUsefullness(list_3)
@@ -21,7 +21,7 @@ def pieChartGrupal(request, grupo_id):
     uful_2, uless_2 = getTopActivitiesCircular(list_2)
     uful_3, uless_3 = getTopActivitiesCircular(list_3)
     uful_4, uless_4 = getTopActivitiesCircular(list_4)
-    next_id = int(grupo_id) + 1
+    prev_id, next_id = getNextPrevious(term_id, grupo_id)
     context = {'dataset_1': dataset_1,
                'dataset_2': dataset_2,
                'dataset_3': dataset_3,
@@ -35,19 +35,21 @@ def pieChartGrupal(request, grupo_id):
                'uful_4': uful_4,
                'uless_4': uless_4,
                'grupo_id': grupo_id,
-               'next_group': next_id}
+               'prev_id': prev_id,
+               'next_id': next_id,
+               'term_id': term_id}
     return render(request, 'tracker/pieChartGrupal.html', context)
 
-def linealComparativo(request, grupo_id):
-    users = groupSelector(grupo_id)
+def linealComparativo(request, term_id, grupo_id):
+    users = groupSelector(term_id, grupo_id)
     all_dates = []
-    list_1 = fetchDocInfofromUser(users[0])
+    list_1 = fetchDocInfofromUser(term_id, users[0])
     sorted_dates_1, times_1 = buildDataset(list_1)
-    list_2 = fetchDocInfofromUser(users[1])
+    list_2 = fetchDocInfofromUser(term_id, users[1])
     sorted_dates_2, times_2 = buildDataset(list_2)
-    list_3 = fetchDocInfofromUser(users[2])
+    list_3 = fetchDocInfofromUser(term_id, users[2])
     sorted_dates_3, times_3 = buildDataset(list_3)
-    list_4 = fetchDocInfofromUser(users[3])
+    list_4 = fetchDocInfofromUser(term_id, users[3])
     sorted_dates_4, times_4 = buildDataset(list_4)
     all_dates = sorted_dates_1 + list(set(sorted_dates_2) - set(sorted_dates_1))
     all_dates = all_dates + list(set(sorted_dates_3) - set(all_dates))
@@ -57,86 +59,97 @@ def linealComparativo(request, grupo_id):
     times_2 = depurateTimes(all_dates, sorted_dates_2, times_2)
     times_3 = depurateTimes(all_dates, sorted_dates_3, times_3)
     times_4 = depurateTimes(all_dates, sorted_dates_4, times_4)
-    next_id = int(grupo_id) + 1
+    prev_id, next_id = getNextPrevious(term_id, grupo_id)
     context = {'times_1': times_1,
                'times_2': times_2,
                'times_3': times_3,
                'times_4': times_4,
                'dates': all_dates,
                'group_id': grupo_id,
-               'next_group': next_id}
+               'prev_id': prev_id,
+               'next_id': next_id,
+               'term_id': term_id}
     return render(request, 'tracker/linealComparativo.html', context)
     
-##def groupSelector(grupo_id):
-##    if grupo_id in '1':
-##        user_1 = 22
-##        user_2 = 26
-##        user_3 = 28
-##        user_4 = 34
-##    elif grupo_id in '2':
-##        user_1 = 23
-##        user_2 = 32
-##        user_3 = 36
-##        user_4 = 41
-##    elif grupo_id in '3':
-##        user_1 = 29
-##        user_2 = 30
-##        user_3 = 31
-##        user_4 = 38
-##    elif grupo_id in '4':
-##        user_1 = 27
-##        user_2 = 37
-##        user_3 = 39
-##        user_4 = 40
-##    elif grupo_id in '5':
-##        user_1 = 26
-##        user_2 = 33
-##        user_3 = 34
-##        user_4 = 43
-##    else:
-##        user_1 = 22
-##        user_2 = 28
-##        user_3 = 35
-##        user_4 = 25
-##    return [user_1, user_2, user_3, user_4]
+def groupSelector(term_id, grupo_id):
+    if int(term_id) == 1:
+        if grupo_id in '1':
+            user_1 = 22
+            user_2 = 26
+            user_3 = 28
+            user_4 = 34
+        elif grupo_id in '2':
+            user_1 = 23
+            user_2 = 32
+            user_3 = 36
+            user_4 = 41
+        elif grupo_id in '3':
+            user_1 = 29
+            user_2 = 30
+            user_3 = 31
+            user_4 = 38
+        elif grupo_id in '4':
+            user_1 = 27
+            user_2 = 37
+            user_3 = 39
+            user_4 = 40
+        elif grupo_id in '5':
+            user_1 = 26
+            user_2 = 33
+            user_3 = 34
+            user_4 = 43
+        else:
+            user_1 = 22
+            user_2 = 28
+            user_3 = 35
+            user_4 = 25
+        return [user_1, user_2, user_3, user_4]
+    elif int(term_id) == 2:
+        if grupo_id in '1':
+            user_1 = 1
+            user_2 = 2
+            user_3 = 18
+            user_4 = 0
+        elif grupo_id in '2':
+            user_1 = 4
+            user_2 = 10
+            user_3 = 22
+            user_4 = 0
+        elif grupo_id in '3':
+            user_1 = 8
+            user_2 = 9
+            user_3 = 0
+            user_4 = 0
+        elif grupo_id in '4':
+            user_1 = 7
+            user_2 = 13
+            user_3 = 15
+            user_4 = 0
+        elif grupo_id in '5':
+            user_1 = 5
+            user_2 = 17
+            user_3 = 0
+            user_4 = 0
+        elif grupo_id in '6':
+            user_1 = 3
+            user_2 = 6
+            user_3 = 21
+            user_4 = 0
+        else:
+            user_1 = 1
+            user_2 = 2
+            user_3 = 18
+            user_4 = 0
+        return [user_1, user_2, user_3, user_4]
 
-def groupSelector(grupo_id):
-    if grupo_id in '1':
-        user_1 = 1
-        user_2 = 2
-        user_3 = 18
-        user_4 = 0
-    elif grupo_id in '2':
-        user_1 = 4
-        user_2 = 10
-        user_3 = 22
-        user_4 = 0
-    elif grupo_id in '3':
-        user_1 = 8
-        user_2 = 9
-        user_3 = 0
-        user_4 = 0
-    elif grupo_id in '4':
-        user_1 = 7
-        user_2 = 13
-        user_3 = 15
-        user_4 = 0
-    elif grupo_id in '5':
-        user_1 = 5
-        user_2 = 17
-        user_3 = 0
-        user_4 = 0
-    elif grupo_id in '6':
-        user_1 = 3
-        user_2 = 6
-        user_3 = 21
-        user_4 = 0
-    else:
-        user_1 = 1
-        user_2 = 2
-        user_3 = 18
-        user_4 = 0
-    return [user_1, user_2, user_3, user_4]
+def getNextPrevious(term_id, grupo_id):
+    current = int(grupo_id)
+    if int(term_id) == 1:
+        groups = [x for x in range(1, 6)]
+    elif int(term_id) == 2:
+        groups = [x for x in range(1, 7)]
+    n = len(groups)
+    return [str(groups[(current - 2) % n]), str(groups[(current) % n])]
 
 def depurateTimes(dates_set, sorted_dates, sorted_times):
     new_times = [0 for item in range(0, len(dates_set))]
@@ -157,23 +170,34 @@ def classifyUsefullness(dataset):
             dictionary["useless"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
     return dictionary
 
-def fetchDocInfofromUser(user):
+def fetchDocInfofromUser(termino, user):
+    user_activity = Datos.objects.filter(periodo=termino)
     user_activity = Datos.objects.filter(usuario=user)
-    #user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    if int(termino) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(termino) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Documents")
     user_activity = filterByRelevance(user_activity, 1)
     return user_activity
 
-def fetchAppInfofromUser(user):
+def fetchAppInfofromUser(termino, user):
+    user_activity = Datos.objects.filter(periodo=termino)
     user_activity = Datos.objects.filter(usuario=user)
-    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    if int(termino) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(termino) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Applications")
     return user_activity
 
-def fetchAllInfofromUser(user):
+def fetchAllInfofromUser(termino, user):
+    user_activity = Datos.objects.filter(periodo=termino)
     user_activity = Datos.objects.filter(usuario=user)
-    user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    if int(termino) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(termino) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
     user_activity = filterByClass(user_activity, "Documents")
     return user_activity
 

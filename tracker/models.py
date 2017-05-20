@@ -11,6 +11,7 @@ from django.db import models
 
 
 class Datos(models.Model):
+    periodo = models.IntegerField(blank=True, null=True)
     actividad = models.CharField(max_length=300, blank=True, null=True)
     dia_inicio = models.DateField(blank=True, null=True)
     hora_inicio = models.TimeField(blank=True, null=True)

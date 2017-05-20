@@ -14,32 +14,42 @@
 	</head>
     <body>
 		<nav class="navbar navbar-inverse">
-		  <div class="container-fluid">
-			<div class="navbar-header">
-			  <a class="navbar-brand" href="#">WebSiteName</a>
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">WebSiteName</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/tracker/">Home</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="">Lineal Graphs
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="/tracker/linealComparativo/1/1">2016-1T</a>
+								</li>
+								<li>
+									<a href="/tracker/linealComparativo/2/1">2016-2T</a>
+								</li>
+							</ul>
+						</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="/tracker/pieChartGrupal/1">Pie Charts
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/tracker/pieChartGrupal/1/1">2016-1T</a>
+							</li>
+							<li>
+								<a href="/tracker/pieChartGrupal/2/1">2016-2T</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
-			<ul class="nav navbar-nav">
-			  <li class="active"><a href="/tracker/">Home</a></li>
-			  <li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="">Lineal Graphs
-				<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-				  <li><a href="/tracker/linealComparativo/1">2016-1T</a></li>
-				  <li><a href="/tracker/linealComparativo/6">2016-2T</a></li>
-				</ul>
-			  </li>
-			  <li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="/tracker/pieChartGrupal/1">Pie Charts
-				<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-				  <li><a href="/tracker/pieChartGrupal/1">2016-1T</a></li>
-				  <li><a href="/tracker/pieChartGrupal/6">2016-2T</a></li>
-				</ul>
-			  </li>
-			  <li><a href="#">Page 3</a></li>
-			</ul>
-		  </div>
 		</nav>
+		<div id="term_id" style="position:relative;left:47%;width:100px;;color:#333333;font-size:18px;fill:#333333">{{term_id}}</div>
         <ul>
             {% for key, value in dataset_1.items %} 
                 <li class="values1" style="display: none">{{value}}</li>
@@ -86,9 +96,13 @@
                 <li class="timesless4" style="display: none">{{ time }}</li>
             {% endfor %}
         </ul>
-        <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-        <div id="container2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-        <div id="container3" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-        <div id="container4" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="container4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+		<ul class="pager">
+			<li><a href="{% url 'pieChartGrupal' term_id prev_id%}">Previous</a></li>
+			<li><a href="{% url 'pieChartGrupal' term_id next_id%}">Next</a></li>
+		</ul>
     </body>
 </html>
