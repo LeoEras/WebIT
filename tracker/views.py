@@ -2,17 +2,24 @@ from django.shortcuts import render
 from datetime import date, datetime, timedelta
 import operator
 from collections import Counter
-from .models import Datos
+from .models import Log, Users, Dates, Class_Type, Term, Activity, Application
+import re
 
 def index(request):
     return render(request, 'tracker/index.html')
     
 def pieChartGrupal(request, term_id, grupo_id):
     users = groupSelector(term_id, grupo_id)
-    list_1 = fetchAllInfofromUser(term_id, users[0])
-    list_2 = fetchAllInfofromUser(term_id, users[1])
-    list_3 = fetchAllInfofromUser(term_id, users[2])
-    list_4 = fetchAllInfofromUser(term_id, users[3])
+    names = getNames(users, term_id)
+    user_activity = Log.objects.filter(termID=term_id)
+    if int(term_id) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(term_id) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    list_1 = fetchAllDocInfofromUser(user_activity, term_id, users[0])
+    list_2 = fetchAllDocInfofromUser(user_activity, term_id, users[1])
+    list_3 = fetchAllDocInfofromUser(user_activity, term_id, users[2])
+    list_4 = fetchAllDocInfofromUser(user_activity, term_id, users[3])
     dataset_1 = classifyUsefullness(list_1)
     dataset_2 = classifyUsefullness(list_2)
     dataset_3 = classifyUsefullness(list_3)
@@ -21,8 +28,20 @@ def pieChartGrupal(request, term_id, grupo_id):
     uful_2, uless_2 = getTopActivitiesCircular(list_2)
     uful_3, uless_3 = getTopActivitiesCircular(list_3)
     uful_4, uless_4 = getTopActivitiesCircular(list_4)
+    uful_1 = depurate(uful_1)
+    uless_1 = depurate(uless_1)
+    uful_2 = depurate(uful_2)
+    uless_2 = depurate(uless_2)
+    uful_3 = depurate(uful_3)
+    uless_3 = depurate(uless_3)
+    uful_4 = depurate(uful_4)
+    uless_4 = depurate(uless_4)
     prev_id, next_id = getNextPrevious(term_id, grupo_id)
-    context = {'dataset_1': dataset_1,
+    context = {'student1': names[0],
+               'student2': names[1],
+               'student3': names[2],
+               'student4': names[3],
+               'dataset_1': dataset_1,
                'dataset_2': dataset_2,
                'dataset_3': dataset_3,
                'dataset_4': dataset_4,
@@ -42,14 +61,20 @@ def pieChartGrupal(request, term_id, grupo_id):
 
 def linealComparativo(request, term_id, grupo_id):
     users = groupSelector(term_id, grupo_id)
+    names = getNames(users, term_id)
     all_dates = []
-    list_1 = fetchDocInfofromUser(term_id, users[0])
+    user_activity = Log.objects.filter(termID=term_id)
+    if int(term_id) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(term_id) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    list_1 = fetchDocInfofromUser(user_activity, term_id, users[0])
     sorted_dates_1, times_1 = buildDataset(list_1)
-    list_2 = fetchDocInfofromUser(term_id, users[1])
+    list_2 = fetchDocInfofromUser(user_activity, term_id, users[1])
     sorted_dates_2, times_2 = buildDataset(list_2)
-    list_3 = fetchDocInfofromUser(term_id, users[2])
+    list_3 = fetchDocInfofromUser(user_activity, term_id, users[2])
     sorted_dates_3, times_3 = buildDataset(list_3)
-    list_4 = fetchDocInfofromUser(term_id, users[3])
+    list_4 = fetchDocInfofromUser(user_activity, term_id, users[3])
     sorted_dates_4, times_4 = buildDataset(list_4)
     all_dates = sorted_dates_1 + list(set(sorted_dates_2) - set(sorted_dates_1))
     all_dates = all_dates + list(set(sorted_dates_3) - set(all_dates))
@@ -60,7 +85,11 @@ def linealComparativo(request, term_id, grupo_id):
     times_3 = depurateTimes(all_dates, sorted_dates_3, times_3)
     times_4 = depurateTimes(all_dates, sorted_dates_4, times_4)
     prev_id, next_id = getNextPrevious(term_id, grupo_id)
-    context = {'times_1': times_1,
+    context = {'student1': names[0],
+               'student2': names[1],
+               'student3': names[2],
+               'student4': names[3],
+               'times_1': times_1,
                'times_2': times_2,
                'times_3': times_3,
                'times_4': times_4,
@@ -70,6 +99,101 @@ def linealComparativo(request, term_id, grupo_id):
                'next_id': next_id,
                'term_id': term_id}
     return render(request, 'tracker/linealComparativo.html', context)
+
+def circularAplicaciones(request, term_id, grupo_id):
+    users = groupSelector(term_id, grupo_id)
+    names = getNames(users, term_id)
+    all_dates = []
+    user_activity = Log.objects.filter(termID=term_id)
+    if int(term_id) == 1:
+        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+    elif int(term_id) == 2:
+        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    list_1 = fetchAppInfofromUser(user_activity, term_id, users[0])
+    list_2 = fetchAppInfofromUser(user_activity, term_id, users[1])
+    list_3 = fetchAppInfofromUser(user_activity, term_id, users[2])
+    list_4 = fetchAppInfofromUser(user_activity, term_id, users[3])
+    mat_1, list_1 = buildAppMatrix(list_1)
+    mat_2, list_2 = buildAppMatrix(list_2)
+    mat_3, list_3 = buildAppMatrix(list_3)
+    mat_4, list_4 = buildAppMatrix(list_4)
+    list_1 = getAppList(list_1)
+    list_2 = getAppList(list_2)
+    list_3 = getAppList(list_3)
+    list_4 = getAppList(list_4)
+    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+    context = {'student1': names[0],
+               'student2': names[1],
+               'student3': names[2],
+               'student4': names[3],
+               'matrix_1': mat_1,
+               'matrix_2': mat_2,
+               'matrix_3': mat_3,
+               'matrix_4': mat_4,
+               'list_1': list_1,
+               'list_2': list_2,
+               'list_3': list_3,
+               'list_4': list_4,
+               'group_id': grupo_id,
+               'prev_id': prev_id,
+               'next_id': next_id,
+               'term_id': term_id}
+    return render(request, 'tracker/circularAplicaciones.html', context)
+
+##def circularActividades(request, term_id, grupo_id):
+##    users = groupSelector(term_id, grupo_id)
+##    names = getNames(users, term_id)
+##    all_dates = []
+##    user_activity = Log.objects.filter(termID=term_id)
+##    if int(term_id) == 1:
+##        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
+##    elif int(term_id) == 2:
+##        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+##    list_1 = fetchAppInfofromUser(user_activity, term_id, users[0])
+##    list_2 = fetchAppInfofromUser(user_activity, term_id, users[1])
+##    list_3 = fetchAppInfofromUser(user_activity, term_id, users[2])
+##    list_4 = fetchAppInfofromUser(user_activity, term_id, users[3])
+##    mat_1, list_1 = buildActMatrix(list_1)
+##    mat_2, list_2 = buildActMatrix(list_2)
+##    mat_3, list_3 = buildActMatrix(list_3)
+##    mat_4, list_4 = buildActMatrix(list_4)
+##    list_1 = getAppList(list_1)
+##    list_2 = getAppList(list_2)
+##    list_3 = getAppList(list_3)
+##    list_4 = getAppList(list_4)
+##    print(list_4)
+##    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+##    context = {'student1': names[0],
+##               'student2': names[1],
+##               'student3': names[2],
+##               'student4': names[3],
+##               'matrix_1': mat_1,
+##               'matrix_2': mat_2,
+##               'matrix_3': mat_3,
+##               'matrix_4': mat_4,
+##               'list_1': list_1,
+##               'list_2': list_2,
+##               'list_3': list_3,
+##               'list_4': list_4,
+##               'group_id': grupo_id,
+##               'prev_id': prev_id,
+##               'next_id': next_id,
+##               'term_id': term_id}
+##    return render(request, 'tracker/circularAplicaciones.html', context)
+
+def depurate(data):
+    result = []
+    for item in data:
+        l_item = list(item)
+        if "www" in l_item[0]:
+            strings = l_item[0].split(".")
+            string = strings[1]
+            l_item[0] = string + ".com"
+        word = re.findall(r'\w+\.\w+', l_item[0])
+        if len(word) > 0:
+            l_item[0] = word[-1]
+        result.append(l_item)
+    return result
     
 def groupSelector(term_id, grupo_id):
     if int(term_id) == 1:
@@ -142,6 +266,16 @@ def groupSelector(term_id, grupo_id):
             user_4 = 0
         return [user_1, user_2, user_3, user_4]
 
+def getNames(list_of_users, term):
+    users = Users.objects.filter(termID=term)
+    names = []
+    for item in users:
+        if item.id in list_of_users:
+            names.append(item.first_name + " " + item.last_name)
+    while len(names) < 4:
+        names.append("-")
+    return names
+
 def getNextPrevious(term_id, grupo_id):
     current = int(grupo_id)
     if int(term_id) == 1:
@@ -151,6 +285,15 @@ def getNextPrevious(term_id, grupo_id):
     n = len(groups)
     return [str(groups[(current - 2) % n]), str(groups[(current) % n])]
 
+def getAppList(list_of_app_index):
+    new_list = ["" for i in range(len(list_of_app_index))]
+    for i in range(len(list_of_app_index)):
+        name = Application.objects.filter(id=list_of_app_index[i])[0].application
+        if  "Sistema operativo" in name:
+            name = "Windows Explorer"
+        new_list[i] = name
+    return new_list
+
 def depurateTimes(dates_set, sorted_dates, sorted_times):
     new_times = [0 for item in range(0, len(dates_set))]
     for i in range(0, len(dates_set)):
@@ -159,55 +302,128 @@ def depurateTimes(dates_set, sorted_dates, sorted_times):
             new_times[i] = sorted_times[index]
     return new_times
 
+def strToDate(date_str):
+    list_of_strings = date_str.split("-")
+    return date(int(list_of_strings[0]), int(list_of_strings[1]), int(list_of_strings[2]))
+
 def classifyUsefullness(dataset):
     dictionary = {}
     dictionary["useful"] = 0
     dictionary["useless"] = 0
     for item in dataset:
-        if item.importancia == 1:
-            dictionary["useful"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        if item.relevance == 1:
+            dictionary["useful"] += (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
         else:
-            dictionary["useless"] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+            dictionary["useless"] += (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
     return dictionary
 
-def fetchDocInfofromUser(termino, user):
-    user_activity = Datos.objects.filter(periodo=termino)
-    user_activity = Datos.objects.filter(usuario=user)
-    if int(termino) == 1:
-        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    elif int(termino) == 2:
-        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+def fetchDocInfofromUser(dataset, termino, user):
+    user_activity = filterByUser(dataset, user)
     user_activity = filterByClass(user_activity, "Documents")
     user_activity = filterByRelevance(user_activity, 1)
     return user_activity
 
-def fetchAppInfofromUser(termino, user):
-    user_activity = Datos.objects.filter(periodo=termino)
-    user_activity = Datos.objects.filter(usuario=user)
-    if int(termino) == 1:
-        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    elif int(termino) == 2:
-        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
-    user_activity = filterByClass(user_activity, "Applications")
-    return user_activity
-
-def fetchAllInfofromUser(termino, user):
-    user_activity = Datos.objects.filter(periodo=termino)
-    user_activity = Datos.objects.filter(usuario=user)
-    if int(termino) == 1:
-        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-    elif int(termino) == 2:
-        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+def fetchAllDocInfofromUser(dataset, termino, user):
+    user_activity = filterByUser(dataset, user)
     user_activity = filterByClass(user_activity, "Documents")
     return user_activity
 
+def fetchAppInfofromUser(dataset, termino, user):
+    user_activity = filterByUser(dataset, user)
+    user_activity = filterByClass(user_activity, "Applications")
+    return user_activity
+
+def buildAppMatrix(activity_list):
+    dict_app = {}
+    app_list = [0 for i in range(len(activity_list))]
+    matrix = []
+    
+    for i in range(len(activity_list)):
+        app_list[i] = activity_list[i].applicationID
+
+    cont = 0
+    dict_app, cont = getAppByID(app_list, dict_app, 4, cont)  #Chrome
+    dict_app, cont = getAppByID(app_list, dict_app, 652, cont) #Firefox
+    dict_app, cont = getAppByID(app_list, dict_app, 100, cont)  #Notepad++
+    dict_app, cont = getAppByID(app_list, dict_app, 1161, cont)  #Sublime Text
+    dict_app, cont = getAppByID(app_list, dict_app, 36, cont)   #Sublime Text 2
+    dict_app, cont = getAppByID(app_list, dict_app, 2247, cont) #Notepad
+    dict_app, cont = getAppByID(app_list, dict_app, 29, cont)    #Mintty
+    dict_app, cont = getAppByID(app_list, dict_app, 62, cont)    #Github Desktop
+                
+    for i in range(len(app_list)):
+        if app_list[i] not in dict_app:
+            dict_app[app_list[i]] = cont
+            cont += 1
+            
+    for i in range(len(list(dict_app.keys()))):
+        matrix.append([])
+        matrix[i] = [0 for j in range(len(list(dict_app.keys())))]
+
+    for i in range(len(app_list)):
+        current = app_list[i]
+        next_one = current
+        if (i + 1) < len(app_list):
+            next_one = app_list[i + 1]
+
+        matrix_i = dict_app[current]
+        matrix_j = dict_app[next_one]
+
+        matrix[matrix_i][matrix_j] += 1
+    
+    return matrix, list(dict_app.keys())
+
+def getAppByID(app_list, dictionary, id_value, cont):
+    tmp = cont
+    for i in range(len(app_list)):
+        if app_list[i] not in dictionary:
+            if app_list[i] == id_value:
+                dictionary[app_list[i]] = cont
+                cont += 1
+                break
+
+##    if tmp == cont:
+##        cont += 1
+    return dictionary, cont
+    
+##def buildActMatrix(activity_list):
+##    dict_app = {}
+##    app_list = [0 for i in range(len(activity_list))]
+##    matrix = []
+##    
+##    for i in range(len(activity_list)):
+##        app_list[i] = activity_list[i].applicationID
+##
+##    cont = 0
+##    for i in range(len(app_list)):
+##        if app_list[i] not in dict_app:
+##            dict_app[app_list[i]] = cont
+##            cont += 1
+##
+##    for i in range(len(list(dict_app.keys()))):
+##        matrix.append([])
+##        matrix[i] = [0 for j in range(len(list(dict_app.keys())))]
+##
+##    for i in range(len(app_list)):
+##        current = app_list[i]
+##        next_one = current
+##        if (i + 1) < len(app_list):
+##            next_one = app_list[i + 1]
+##
+##        matrix_i = dict_app[current]
+##        matrix_j = dict_app[next_one]
+##
+##        matrix[matrix_i][matrix_j] += 1
+##
+##    return matrix
+        
 def buildDataset(activity_list):
     dictionary = {}
     for item in activity_list:
-        if item.dia_inicio not in dictionary:
-            dictionary[item.dia_inicio] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        if item.start_date not in dictionary:
+            dictionary[item.start_date] = (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
         else:
-            dictionary[item.dia_inicio] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+            dictionary[item.start_date] += (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
     sorted_dates = sorted(dictionary)
     time_per_date = []
     for i in range(0, len(sorted_dates)):
@@ -217,21 +433,45 @@ def buildDataset(activity_list):
 def getTopActivitiesCircular(activity_list):
     dictionary_uful = {}
     dictionary_uless = {}
+    dict_uful = {}
+    dict_uless = {}
+    list_uful = []
+    list_uless = []
+    l_uful = []
+    l_uless = []
     for item in activity_list:
-        if '.js' in item.responsable or '.css' in item.responsable or '.ejs' in item.responsable or '.html' in item.responsable:
-            continue
-        if item.importancia == 1:
-            if item.responsable not in dictionary_uful:
-                dictionary_uful[item.responsable] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+        if item.relevance == 1:
+            if item.applicationID not in dictionary_uful:
+                dictionary_uful[item.applicationID] = (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
             else:
-                dictionary_uful[item.responsable] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+                dictionary_uful[item.applicationID] += (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
         else:
-            if item.responsable not in dictionary_uless:
-                dictionary_uless[item.responsable] = (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
+            if item.applicationID not in dictionary_uless:
+                dictionary_uless[item.applicationID] = (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
             else:
-                dictionary_uless[item.responsable] += (datetime.combine(date.min, item.tiempo) - datetime.min).total_seconds()
-                
-    return Counter(dictionary_uful).most_common(5), Counter(dictionary_uless).most_common(5)
+                dictionary_uless[item.applicationID] += (datetime.combine(date.min, item.elapsed_time) - datetime.min).total_seconds()
+
+    list_uful = list(dictionary_uful.keys())
+    list_uless = list(dictionary_uless.keys())
+
+    l_uful = ["" for i in range(len(list_uful))]
+    l_uless = ["" for i in range(len(list_uless))]
+
+    for i in range(len(list_uful)):
+        app_name = Application.objects.filter(id=list_uful[i])[0].application
+        l_uful[i] = app_name
+
+    for i in range(len(list_uless)):
+        app_name = Application.objects.filter(id=list_uless[i])[0].application
+        l_uless[i] = app_name
+
+    for i in range(len(list_uful)):
+        dict_uful[l_uful[i]] = dictionary_uful[list_uful[i]]
+
+    for i in range(len(list_uless)):
+        dict_uless[l_uless[i]] = dictionary_uless[list_uless[i]]
+        
+    return Counter(dict_uful).most_common(5), Counter(dict_uless).most_common(5)
     
 def setImportance(item, filters):
     for filtro in filters:
@@ -260,27 +500,39 @@ def findItems(objects_list, name, item_type, date_start, date_end):
 
 def filterByDate(objects, date_start, date_end):
     result = []
-    d_start = datetime.strptime(date_start, "%Y-%m-%d").date()
-    d_end = datetime.strptime(date_end, "%Y-%m-%d").date()
+    s_date = strToDate(date_start)
+    e_date = strToDate(date_end)
     for item in objects:
-        if item.dia_inicio >= d_start and item.dia_final <= d_end:
+        if item.start_date >= s_date and item.end_date <= e_date:
+            result.append(item)
+    return result
+
+def filterByUser(objects, user):
+    result = []
+    for item in objects:
+        if item.userID == user:
             result.append(item)
     return result
 
 def filterByClass(objects, class_object):
     result = []
+    if "Doc" in class_object:
+        gChromeID = Application.objects.filter(application="Google Chrome")[0].id
+    else:
+        gChromeID = -1
+    class_typeID = Class_Type.objects.filter(class_name=class_object)[0].id
     for item in objects:
-        if item.responsable == "Google Chrome":
+        if item.applicationID == gChromeID:
             continue
         else:
-            if item.clase == class_object:
+            if item.classID == class_typeID:
                 result.append(item)
     return result
 
 def filterByRelevance(objects, relevance):
     result = []
     for item in objects:
-        if item.importancia == relevance:
+        if item.relevance == relevance:
             result.append(item)
     return result
 

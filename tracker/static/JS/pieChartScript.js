@@ -1,10 +1,11 @@
-
 $(function () {
 	var grupo_id = parseInt($("#grupo_id").text());
 	var term_id = parseInt($("#term_id").text());
-	var names = ["Student 1", "Student 2", "Student 3", "Student 4"];
-		
-
+	var student1 = ($("#student1").text());
+	var student2 = ($("#student2").text());
+	var student3 = ($("#student3").text());
+	var student4 = ($("#student4").text());
+    var names = [student1, student2, student3, student4];
 	if (term_id == 1){
 		($("#term_id")).text("2016-1T");
 	} else if (term_id == 2){
@@ -34,6 +35,7 @@ $(function () {
 	}
 	$('#container').highcharts({
 		chart: {
+			reflow: true,
 			type: 'pie'
 		},
 		title: {
@@ -58,25 +60,25 @@ $(function () {
 			name: names[0],
 			colorByPoint: true,
 			data: [{
-				name: 'Relevant',
+				name: 'Importante',
 				y: percent_imp1,
 				sliced: true,
 				selected: true,
-				drilldown: 'Relevant1'
+				drilldown: 'Importante1'
 			}, {
-				name: 'Non Relevant',
+				name: 'No Importante',
 				y: percent_nimp1,
-				drilldown: 'Non Relevant1'
+				drilldown: 'No Importante1'
 			}]
 		}],
 		drilldown: {
 			series: [{
-				name: 'Relevant',
-				id: 'Relevant1',
+				name: 'Importante',
+				id: 'Importante1',
 				data: combinedful1
 			}, {
-				name: 'Non Relevant',
-				id: 'Non Relevant1',
+				name: 'No Importante',
+				id: 'No Importante1',
 				data: combinedless1
 			}]
 		}
@@ -108,25 +110,25 @@ $(function () {
 				name: names[1],
 				colorByPoint: true,
 				data: [{
-					name: 'Relevant',
+					name: 'Importante',
 					y: percent_imp2,
 					sliced: true,
 					selected: true,
-					drilldown: 'Relevant2'
+					drilldown: 'Importante2'
 				}, {
-					name: 'Non Relevant',
+					name: 'No Importante',
 					y: percent_nimp2,
-					drilldown: 'Non Relevant2'
+					drilldown: 'No Importante2'
 				}]
 			}],
 			drilldown: {
 				series: [{
-					name: 'Relevant',
-					id: 'Relevant2',
+					name: 'Importante',
+					id: 'Importante2',
 					data: combinedful2
 				}, {
-					name: 'Non Relevant',
-					id: 'Non Relevant2',
+					name: 'No Importante',
+					id: 'No Importante2',
 					data: combinedless2
 				}]
 			}
@@ -159,25 +161,25 @@ $(function () {
 				name: names[2],
 				colorByPoint: true,
 				data: [{
-					name: 'Relevant',
+					name: 'Importante',
 					y: percent_imp3,
 					sliced: true,
 					selected: true,
-					drilldown: 'Relevant3'
+					drilldown: 'Importante3'
 				}, {
-					name: 'Non Relevant',
+					name: 'No Importante',
 					y: percent_nimp3,
-					drilldown: 'Non Relevant3'
+					drilldown: 'No Importante3'
 				}]
 			}],
 			drilldown: {
 				series: [{
-					name: 'Relevant',
-					id: 'Relevant3',
+					name: 'Importante',
+					id: 'Importante3',
 					data: combinedful3
 				}, {
-					name: 'Non Relevant',
-					id: 'Non Relevant3',
+					name: 'No Importante',
+					id: 'No Importante3',
 					data: combinedless3
 				}]
 			}
@@ -210,25 +212,25 @@ $(function () {
 				name: names[3],
 				colorByPoint: true,
 				data: [{
-					name: 'Relevant',
+					name: 'Importante',
 					y: percent_imp4,
 					sliced: true,
 					selected: true,
-					drilldown: 'Relevant4'
+					drilldown: 'Importante4'
 				}, {
-					name: 'Non Relevant',
+					name: 'No Importante',
 					y: percent_nimp4,
-					drilldown: 'Non Relevant4'
+					drilldown: 'No Importante4'
 				}]
 			}],
 			drilldown: {
 				series: [{
-					name: 'Relevant',
-					id: 'Relevant4',
+					name: 'Importante',
+					id: 'Importante4',
 					data: combinedful4
 				}, {
-					name: 'Non Relevant',
-					id: 'Non Relevant4',
+					name: 'No Importante',
+					id: 'No Importante4',
 					data: combinedless4
 				}]
 			}

@@ -1,36 +1,11 @@
 ﻿$(function () {
     var grupo_id = parseInt($("#grupo_id").text());
     var term_id = parseInt($("#term_id").text());
-    var names = ["Student 1", "Student 2", "Student 3", "Student 4"];
-    //switch(grupo_id){
-    //    case 2:
-    //        names[0] = "Benitez";
-    //        names[1] = "Mosquera";
-    //        names[2] = "Rodriguez";
-    //        names[3] = "Martínez";
-    //        break;
-    //    case 3:
-    //        names[0] = "Moreno";
-    //        names[1] = "Moreira, Edgar";
-    //        names[2] = "Moreira, Maria";
-    //        names[3] = "Manosalvas";
-    //        break;
-    //    case 4:
-    //        names[0] = "Guerra";
-    //        names[1] = "Garcia";
-    //        names[2] = "Guilindro";
-    //        names[3] = "Cedeño";
-    //        break;
-    //    case 5:
-    //        names[0] = "Velez";
-    //        names[1] = "Carvajal";
-    //        names[2] = "Tenecela";
-    //        names[3] = "Duchi";
-    //        break;
-    //    default:
-    //        break;
-    //}
-    
+	var student1 = ($("#student1").text());
+	var student2 = ($("#student2").text());
+	var student3 = ($("#student3").text());
+	var student4 = ($("#student4").text());
+    var names = [student1, student2, student3, student4];
     var values_1 = $(".ul1").map(function() {
                  return $(this).text();
               }).get();
@@ -91,7 +66,7 @@
             x: -20
         },
         subtitle: {
-            text: 'Group #' + grupo_id + 'Comparative analysis',
+            text: 'Groupo #' + grupo_id + ': Análisis Comparativo',
             x: -20
         },
         xAxis: {
@@ -103,7 +78,7 @@
             min: 0,
             tickInterval: 3600,
             title: {
-                text: 'Worked hours'
+                text: 'Horas Trabajadas'
             },          
             labels: {
                 formatter: function () {

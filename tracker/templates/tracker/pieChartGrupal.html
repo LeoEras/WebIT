@@ -13,42 +13,9 @@
 		<script src="{% static "JS/pieChartScript.js" %}"></script>
 	</head>
     <body>
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">WebSiteName</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/tracker/">Home</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="">Lineal Graphs
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="/tracker/linealComparativo/1/1">2016-1T</a>
-								</li>
-								<li>
-									<a href="/tracker/linealComparativo/2/1">2016-2T</a>
-								</li>
-							</ul>
-						</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="/tracker/pieChartGrupal/1">Pie Charts
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li>
-								<a href="/tracker/pieChartGrupal/1/1">2016-1T</a>
-							</li>
-							<li>
-								<a href="/tracker/pieChartGrupal/2/1">2016-2T</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</nav>
+		<div class="basic">
+			{% include "tracker/includes/base.html" %}    
+		</div>
 		<div id="term_id" style="position:relative;left:47%;width:100px;;color:#333333;font-size:18px;fill:#333333">{{term_id}}</div>
         <ul>
             {% for key, value in dataset_1.items %} 
@@ -96,13 +63,20 @@
                 <li class="timesless4" style="display: none">{{ time }}</li>
             {% endfor %}
         </ul>
-        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        <div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        <div id="container4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-		<ul class="pager">
-			<li><a href="{% url 'pieChartGrupal' term_id prev_id%}">Previous</a></li>
-			<li><a href="{% url 'pieChartGrupal' term_id next_id%}">Next</a></li>
-		</ul>
+        <div id="container" style="width: 40%; height: 400px; margin-left: 10%; display: inline-block; float: left;"></div>
+		<div id="container2" style="width: 40%; height: 400px; margin-right: 10%; display: inline-block; float: right;"></div>
+        <div id="container3" style="width: 40%; height: 400px; margin-left: 10%; display: inline-block; float: left;"></div>
+		<div id="container4" style="width: 40%; height: 400px; margin-right: 10%; display: inline-block; float: right;"></div>
+		<p id="student1" style="display: none">{{student1}}</p>
+		<p id="student2" style="display: none">{{student2}}</p>
+		<p id="student3" style="display: none">{{student3}}</p>
+		<p id="student4" style="display: none">{{student4}}</p>
+		<div style="clear: left;">
+			<ul class="pager">
+				<li><a href="{% url 'pieChartGrupal' term_id prev_id%}">Anterior</a></li>
+				<li><a href="{% url 'linealComparativo' term_id grupo_id%}">Ver gr&aacute;fica lineal</a></li>
+				<li><a href="{% url 'pieChartGrupal' term_id next_id%}">Siguiente</a></li>
+			</ul>
+		</div>
     </body>
 </html>

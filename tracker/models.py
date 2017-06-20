@@ -9,23 +9,73 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
-class Datos(models.Model):
-    periodo = models.IntegerField(blank=True, null=True)
-    actividad = models.CharField(max_length=300, blank=True, null=True)
-    dia_inicio = models.DateField(blank=True, null=True)
-    hora_inicio = models.TimeField(blank=True, null=True)
-    dia_final = models.DateField(blank=True, null=True)
-    hora_final = models.TimeField(blank=True, null=True)
-    tiempo = models.TimeField(blank=True, null=True)
-    responsable = models.CharField(max_length=100, blank=True, null=True)
-    clase = models.CharField(max_length=15, blank=True, null=True)
-    importancia = models.IntegerField(blank=True, null=True)
-    usuario = models.IntegerField(blank=True, null=True)
+class Application(models.Model):
+    #applicationID = models.IntegerField(blank=True, null=True)
+    application = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'datos'
+        db_table = 'Application'
+
+class Activity(models.Model):
+    #activityID = models.IntegerField(blank=True, null=True)
+    activity = models.CharField(max_length=300, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Activity'
+
+class Term(models.Model):
+    #termID = models.IntegerField(blank=True, null=True)
+    term = models.CharField(max_length=7, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Term'
+
+class Dates(models.Model):
+    #datesID = models.IntegerField(blank=True, null=True)
+    dates = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Dates'
+
+class Class_Type(models.Model):
+    #classID = models.IntegerField(blank=True, null=True)
+    class_name = models.CharField(max_length=12, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Class'
+
+class Users(models.Model):
+    #usersID = models.IntegerField(blank=True, null=True)
+    termID = models.IntegerField(blank=True, null=True)
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Users'
+
+class Log(models.Model):
+    #logID = models.IntegerField(blank=True, null=True)
+    termID = models.IntegerField(blank=True, null=True)
+    activityID = models.IntegerField(blank=True, null=True)
+    start_date = models.IntegerField(blank=True, null=True)
+    start_time = models.TimeField(blank=True, null=True)
+    end_date = models.IntegerField(blank=True, null=True)
+    end_time = models.TimeField(blank=True, null=True)
+    elapsed_time = models.TimeField(blank=True, null=True)
+    applicationID = models.IntegerField(blank=True, null=True)
+    classID = models.IntegerField(blank=True, null=True)
+    relevance = models.IntegerField(blank=True, null=True)
+    userID = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Log'
 
 
 class DjangoMigrations(models.Model):

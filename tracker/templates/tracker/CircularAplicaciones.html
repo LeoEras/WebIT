@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Gr&aacute;fica de interacci&oacute;n de aplicaciones</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	{% load static %}
+	<script src="{% static "JS/circularAppScript.js" %}"></script>
+	<style>
+		#visual {
+			font: 14px sans-serif;
+		}
+
+		.chord path {
+			fill-opacity: .67;
+			stroke: #000;
+			stroke-width: 0px;
+		}
+		
+		.group-tick line {
+		  stroke: #000;
+		}
+
+		@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+			#visual {
+				-webkit-user-select: none;
+				font-size: 1.2em;
+			}
+		}
+
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+			#visual { 
+				-webkit-user-select: none; 
+			}
+		}
+	</style>
+	</head>
+	<body>
+	<div class="basic">
+		{% include "tracker/includes/base.html" %}    
+	</div>
+	<div id="term_id" style="display: none">{{term_id}}</div>
+	<div id="grupo_id" style="display: none">{{group_id}}</div>
+	<p id="student1" style="display: none">{{student1}}</p>
+	<p id="student2" style="display: none">{{student2}}</p>
+	<p id="student3" style="display: none">{{student3}}</p>
+	<p id="student4" style="display: none">{{student4}}</p>
+	<div id="matrix1" style="display: none">{{matrix_1}}</div>
+	<div id="matrix2" style="display: none">{{matrix_2}}</div>
+	<div id="matrix3" style="display: none">{{matrix_3}}</div>
+	<div id="matrix4" style="display: none">{{matrix_4}}</div>
+	<div id="list1" style="display: none">{{list_1}}</div>
+	<div id="list2" style="display: none">{{list_2}}</div>
+	<div id="list3" style="display: none">{{list_3}}</div>
+	<div id="list4" style="display: none">{{list_4}}</div>
+	<div style="width: 48%; height: 600px; margin-left: 2%; display: inline-block; float: left;">
+		<svg id="svg1" width="540" height="400"></svg>
+	</div>
+	<div style="width: 48%; height: 600px; margin-right: 2%; display: inline-block; float: right;">
+		<svg id="svg2" width="540" height="560"></svg>
+	</div>
+	<div style="width: 48%; height: 600px; margin-left: 2%; display: inline-block; float: left;">
+		<svg id="svg3" width="540" height="560"></svg>
+	</div>
+	<div style="width: 48%; height: 600px; margin-right: 2%; display: inline-block; float: right;">
+		<svg id="svg4" width="540" height="560"></svg>
+	</div>
+	<ul class="pager">
+		<li><a href="{% url 'circularAplicaciones' term_id prev_id%}">Anterior</a></li>
+		<li><a href="{% url 'circularAplicaciones' term_id group_id%}">Ver gr&aacute;fica lineal</a></li>
+		<li><a href="{% url 'circularAplicaciones' term_id next_id%}">Siguiente</a></li>
+	</ul>
+</body>
+</html>

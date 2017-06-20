@@ -25,13 +25,12 @@ SECRET_KEY = '*wz6xeh*wffv-7gm_!61y(*2dvla01#m+ob$nlje36jvrje17q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['200.126.23.51', '127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'tracker.apps.TrackerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,7 +77,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'investigacion',
+        'NAME': 'Base',
         'USER': 'root',
         'PASSWORD': '1234',
     }
