@@ -8,8 +8,8 @@ import re
 def index(request):
     return render(request, 'tracker/index.html')
     
-def pieChartGrupal(request, term_id, grupo_id):
-    users = groupSelector(term_id, grupo_id)
+def pieChartGrupal(request, term_id, group_id):
+    users = groupSelector(term_id, group_id)
     names = getNames(users, term_id)
     user_activity = Log.objects.filter(termID=term_id)
     if int(term_id) == 1:
@@ -36,7 +36,8 @@ def pieChartGrupal(request, term_id, grupo_id):
     uless_3 = depurate(uless_3)
     uful_4 = depurate(uful_4)
     uless_4 = depurate(uless_4)
-    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+    prev_id, next_id = getNextPrevious(term_id, group_id)
+    max_groups = maxGroups(term_id)
     context = {'student1': names[0],
                'student2': names[1],
                'student3': names[2],
@@ -53,14 +54,15 @@ def pieChartGrupal(request, term_id, grupo_id):
                'uless_3': uless_3,
                'uful_4': uful_4,
                'uless_4': uless_4,
-               'grupo_id': grupo_id,
+               'group_id': group_id,
                'prev_id': prev_id,
                'next_id': next_id,
-               'term_id': term_id}
+               'term_id': term_id,
+               'max_groups': max_groups}
     return render(request, 'tracker/pieChartGrupal.html', context)
 
-def linealComparativo(request, term_id, grupo_id):
-    users = groupSelector(term_id, grupo_id)
+def linealComparativo(request, term_id, group_id):
+    users = groupSelector(term_id, group_id)
     names = getNames(users, term_id)
     all_dates = []
     user_activity = Log.objects.filter(termID=term_id)
@@ -84,7 +86,8 @@ def linealComparativo(request, term_id, grupo_id):
     times_2 = depurateTimes(all_dates, sorted_dates_2, times_2)
     times_3 = depurateTimes(all_dates, sorted_dates_3, times_3)
     times_4 = depurateTimes(all_dates, sorted_dates_4, times_4)
-    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+    prev_id, next_id = getNextPrevious(term_id, group_id)
+    max_groups = maxGroups(term_id)
     context = {'student1': names[0],
                'student2': names[1],
                'student3': names[2],
@@ -94,14 +97,15 @@ def linealComparativo(request, term_id, grupo_id):
                'times_3': times_3,
                'times_4': times_4,
                'dates': all_dates,
-               'group_id': grupo_id,
+               'group_id': group_id,
                'prev_id': prev_id,
                'next_id': next_id,
-               'term_id': term_id}
+               'term_id': term_id,
+               'max_groups': max_groups}
     return render(request, 'tracker/linealComparativo.html', context)
 
-def circularAplicaciones(request, term_id, grupo_id):
-    users = groupSelector(term_id, grupo_id)
+def circularAplicaciones(request, term_id, group_id):
+    users = groupSelector(term_id, group_id)
     names = getNames(users, term_id)
     all_dates = []
     user_activity = Log.objects.filter(termID=term_id)
@@ -121,7 +125,8 @@ def circularAplicaciones(request, term_id, grupo_id):
     list_2 = getAppList(list_2)
     list_3 = getAppList(list_3)
     list_4 = getAppList(list_4)
-    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+    prev_id, next_id = getNextPrevious(term_id, group_id)
+    max_groups = maxGroups(term_id)
     context = {'student1': names[0],
                'student2': names[1],
                'student3': names[2],
@@ -134,14 +139,15 @@ def circularAplicaciones(request, term_id, grupo_id):
                'list_2': list_2,
                'list_3': list_3,
                'list_4': list_4,
-               'group_id': grupo_id,
+               'group_id': group_id,
                'prev_id': prev_id,
                'next_id': next_id,
-               'term_id': term_id}
+               'term_id': term_id,
+               'max_groups': max_groups}
     return render(request, 'tracker/circularAplicaciones.html', context)
 
-##def circularActividades(request, term_id, grupo_id):
-##    users = groupSelector(term_id, grupo_id)
+##def circularActividades(request, term_id, group_id):
+##    users = groupSelector(term_id, group_id)
 ##    names = getNames(users, term_id)
 ##    all_dates = []
 ##    user_activity = Log.objects.filter(termID=term_id)
@@ -162,7 +168,7 @@ def circularAplicaciones(request, term_id, grupo_id):
 ##    list_3 = getAppList(list_3)
 ##    list_4 = getAppList(list_4)
 ##    print(list_4)
-##    prev_id, next_id = getNextPrevious(term_id, grupo_id)
+##    prev_id, next_id = getNextPrevious(term_id, group_id)
 ##    context = {'student1': names[0],
 ##               'student2': names[1],
 ##               'student3': names[2],
@@ -175,12 +181,18 @@ def circularAplicaciones(request, term_id, grupo_id):
 ##               'list_2': list_2,
 ##               'list_3': list_3,
 ##               'list_4': list_4,
-##               'group_id': grupo_id,
+##               'group_id': group_id,
 ##               'prev_id': prev_id,
 ##               'next_id': next_id,
 ##               'term_id': term_id}
 ##    return render(request, 'tracker/circularAplicaciones.html', context)
 
+def maxGroups(term_id):
+    if int(term_id) == 1:
+        return 5
+    elif int(term_id) == 2:
+        return 6
+    
 def depurate(data):
     result = []
     for item in data:
@@ -195,66 +207,66 @@ def depurate(data):
         result.append(l_item)
     return result
     
-def groupSelector(term_id, grupo_id):
+def groupSelector(term_id, group_id):
     if int(term_id) == 1:
-        if grupo_id in '1':
+        if group_id in '1':
             user_1 = 22
             user_2 = 26
             user_3 = 28
             user_4 = 34
-        elif grupo_id in '2':
+        elif group_id in '2':
             user_1 = 23
             user_2 = 32
             user_3 = 36
             user_4 = 41
-        elif grupo_id in '3':
+        elif group_id in '3':
             user_1 = 29
             user_2 = 30
             user_3 = 31
             user_4 = 38
-        elif grupo_id in '4':
+        elif group_id in '4':
             user_1 = 27
             user_2 = 37
             user_3 = 39
             user_4 = 40
-        elif grupo_id in '5':
-            user_1 = 26
+        elif group_id in '5':
+            user_1 = 25
             user_2 = 33
-            user_3 = 34
-            user_4 = 43
+            user_3 = 35
+            user_4 = 0
         else:
             user_1 = 22
-            user_2 = 28
-            user_3 = 35
-            user_4 = 25
+            user_2 = 26
+            user_3 = 28
+            user_4 = 34
         return [user_1, user_2, user_3, user_4]
     elif int(term_id) == 2:
-        if grupo_id in '1':
+        if group_id in '1':
             user_1 = 1
             user_2 = 2
             user_3 = 18
             user_4 = 0
-        elif grupo_id in '2':
+        elif group_id in '2':
             user_1 = 4
             user_2 = 10
             user_3 = 22
             user_4 = 0
-        elif grupo_id in '3':
+        elif group_id in '3':
             user_1 = 8
             user_2 = 9
             user_3 = 0
             user_4 = 0
-        elif grupo_id in '4':
+        elif group_id in '4':
             user_1 = 7
             user_2 = 13
             user_3 = 15
             user_4 = 0
-        elif grupo_id in '5':
+        elif group_id in '5':
             user_1 = 5
             user_2 = 17
             user_3 = 0
             user_4 = 0
-        elif grupo_id in '6':
+        elif group_id in '6':
             user_1 = 3
             user_2 = 6
             user_3 = 21
@@ -276,8 +288,8 @@ def getNames(list_of_users, term):
         names.append("-")
     return names
 
-def getNextPrevious(term_id, grupo_id):
-    current = int(grupo_id)
+def getNextPrevious(term_id, group_id):
+    current = int(group_id)
     if int(term_id) == 1:
         groups = [x for x in range(1, 6)]
     elif int(term_id) == 2:

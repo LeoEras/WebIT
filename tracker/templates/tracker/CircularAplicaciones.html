@@ -42,8 +42,15 @@
 	<div class="basic">
 		{% include "tracker/includes/base.html" %}    
 	</div>
+	<div style="padding-left: 25px; padding-right: 25px;">
+		<h4 style="text-align: center;">Las siguientes gr&aacute;ficas representan
+		el n&uacute;mero de interacciones entre aplicaciones que ha tenido cada 
+		estudiante del grupo, se considera como interacci&oacute;n el paso de una aplicaci&oacute;n 
+		a otra. Se toman en cuenta todas las aplicaciones, incluyendo las que no aportan con el proyecto asignado.
+		</h4>
+	</div>
 	<div id="term_id" style="display: none">{{term_id}}</div>
-	<div id="grupo_id" style="display: none">{{group_id}}</div>
+	<div id="group_id" style="display: none">{{group_id}}</div>
 	<p id="student1" style="display: none">{{student1}}</p>
 	<p id="student2" style="display: none">{{student2}}</p>
 	<p id="student3" style="display: none">{{student3}}</p>
@@ -69,9 +76,14 @@
 		<svg id="svg4" width="540" height="560"></svg>
 	</div>
 	<ul class="pager">
-		<li><a href="{% url 'circularAplicaciones' term_id prev_id%}">Anterior</a></li>
-		<li><a href="{% url 'circularAplicaciones' term_id group_id%}">Ver gr&aacute;fica lineal</a></li>
-		<li><a href="{% url 'circularAplicaciones' term_id next_id%}">Siguiente</a></li>
+		{% if group_id > prev_id %}
+			<li><a href="{% url 'circularAplicaciones' term_id prev_id%}">Anterior</a></li>
+		{% endif %}
+		<li><a href="{% url 'linealComparativo' term_id group_id%}">Ver gr&aacute;fica lineal</a></li>
+		<li><a href="{% url 'pieChartGrupal' term_id group_id%}">Ver gr&aacute;fica circular</a></li>
+		{% if group_id < next_id %}
+			<li><a href="{% url 'circularAplicaciones' term_id next_id%}">Siguiente</a></li>
+		{% endif %}
 	</ul>
 </body>
 </html>

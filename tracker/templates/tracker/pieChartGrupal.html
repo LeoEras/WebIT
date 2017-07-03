@@ -16,6 +16,13 @@
 		<div class="basic">
 			{% include "tracker/includes/base.html" %}    
 		</div>
+		<div style="padding-left: 25px; padding-right: 25px;">
+			<h4 style="text-align: center;">Las siguientes gr&aacute;ficas representan el porcentaje 
+			de tiempo total que cada estudiante del grupo ha empleado para realizar su proyecto en 
+			contraste con el tiempo desaprovechado. Al dar clic sobre la gráfica permite visualizar 
+			las 5 interacciones m&aacute;s frecuentes.
+			</h4>
+		</div>
 		<div id="term_id" style="position:relative;left:47%;width:100px;;color:#333333;font-size:18px;fill:#333333">{{term_id}}</div>
         <ul>
             {% for key, value in dataset_1.items %} 
@@ -73,9 +80,14 @@
 		<p id="student4" style="display: none">{{student4}}</p>
 		<div style="clear: left;">
 			<ul class="pager">
-				<li><a href="{% url 'pieChartGrupal' term_id prev_id%}">Anterior</a></li>
-				<li><a href="{% url 'linealComparativo' term_id grupo_id%}">Ver gr&aacute;fica lineal</a></li>
-				<li><a href="{% url 'pieChartGrupal' term_id next_id%}">Siguiente</a></li>
+				{% if group_id > prev_id %}
+					<li><a href="{% url 'pieChartGrupal' term_id prev_id%}">Anterior</a></li>
+				{% endif %}
+				<li><a href="{% url 'linealComparativo' term_id group_id%}">Ver gr&aacute;fica lineal</a></li>
+				<li><a href="{% url 'circularAplicaciones' term_id group_id%}">Ver gr&aacute;fica de aplicaciones</a></li>
+				{% if group_id < next_id %}
+					<li><a href="{% url 'pieChartGrupal' term_id next_id%}">Siguiente</a></li>
+				{% endif %}
 			</ul>
 		</div>
     </body>

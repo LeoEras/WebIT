@@ -1,5 +1,5 @@
 $(function () {
-	var grupo_id = parseInt($("#grupo_id").text());
+	var group_id = parseInt($("#group_id").text());
 	var term_id = parseInt($("#term_id").text());
 	var student1 = ($("#student1").text());
 	var student2 = ($("#student2").text());
@@ -7,9 +7,9 @@ $(function () {
 	var student4 = ($("#student4").text());
     var names = [student1, student2, student3, student4];
 	if (term_id == 1){
-		($("#term_id")).text("2016-1T");
+		($("#term_id")).text("2016 - 1T");
 	} else if (term_id == 2){
-		($("#term_id")).text("2016-2T");
+		($("#term_id")).text("2016 - 2T");
 	}
 			
 	//Datos
@@ -42,7 +42,7 @@ $(function () {
 			text: names[0]
 		},
 		subtitle: {
-			text: 'Click the slices to view with more detail.'
+			text: 'Presione una sección para ver con mayor detalle.'
 		},
 		plotOptions: {
 			series: {
@@ -51,6 +51,9 @@ $(function () {
 					format: '{point.name}: {point.y:.1f}%'
 				}
 			}
+		},
+		lang: {
+			drillUpText: '<< Completa'
 		},
 		tooltip: {
 			headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
@@ -92,7 +95,7 @@ $(function () {
 				text: names[1]
 			},
 			subtitle: {
-				text: 'Click the slices to view with more detail.'
+				text: 'Presione una sección para ver con mayor detalle.'
 			},
 			plotOptions: {
 				series: {
@@ -101,6 +104,9 @@ $(function () {
 						format: '{point.name}: {point.y:.1f}%'
 					}
 				}
+			},
+			lang: {
+				drillUpText: '<< Completa'
 			},
 			tooltip: {
 				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
@@ -143,7 +149,7 @@ $(function () {
 				text: names[2]
 			},
 			subtitle: {
-				text: 'Click the slices to view with more detail.'
+				text: 'Presione una sección para ver con mayor detalle.'
 			},
 			plotOptions: {
 				series: {
@@ -152,6 +158,9 @@ $(function () {
 						format: '{point.name}: {point.y:.1f}%'
 					}
 				}
+			},
+			lang: {
+				drillUpText: '<< Completa'
 			},
 			tooltip: {
 				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
@@ -194,7 +203,7 @@ $(function () {
 				text: names[3]
 			},
 			subtitle: {
-				text: 'Click the slices to view with more detail.'
+				text: 'Presione una sección para ver con mayor detalle.'
 			},
 			plotOptions: {
 				series: {
@@ -203,6 +212,9 @@ $(function () {
 						format: '{point.name}: {point.y:.1f}%'
 					}
 				}
+			},
+			lang: {
+				drillUpText: '<< Completa'
 			},
 			tooltip: {
 				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',

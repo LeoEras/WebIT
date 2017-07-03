@@ -1,5 +1,5 @@
 ﻿$(function () {
-    var grupo_id = parseInt($("#grupo_id").text());
+    var group_id = parseInt($("#group_id").text());
     var term_id = parseInt($("#term_id").text());
 	var student1 = ($("#student1").text());
 	var student2 = ($("#student2").text());
@@ -39,12 +39,10 @@
         var hour = Math.floor(value/3600);
         var minute = Math.floor((value - hour*3600)/60);
         var seconds = value - hour*3600 - minute*60;
-        if (minute < 10)
-        {
+        if (minute < 10) {
             minute = "0" + minute;
-        }
-        if (seconds < 10)
-        {
+        } 
+		if (seconds < 10) {
             seconds = "0" + seconds;
         }
         return hour + ':' + minute + ':' + seconds
@@ -60,59 +58,164 @@
 		return str;
 	}
    
-    $('#container').highcharts({
-        title: {
-            text: parseTerm(term_id),//$( "li" ).text(),
-            x: -20
-        },
-        subtitle: {
-            text: 'Groupo #' + grupo_id + ': Análisis Comparativo',
-            x: -20
-        },
-        xAxis: {
-            categories: $(".alldates").map(function() {
-                 return $(this).text();
-            }).get()
-        },
-        yAxis: {
-            min: 0,
-            tickInterval: 3600,
-            title: {
-                text: 'Horas Trabajadas'
-            },          
-            labels: {
-                formatter: function () {
-                    return toDate(this.value)
-                }            
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: { formatter: function() {
-                return '<b>'+ this.series.name[0] +':</b> ' + toDate(this.point.y)
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: [names[0], ' ' + toDate(total_1)],
-            data: values_1
-        }, {
-            name: [names[1], ' ' + toDate(total_2)],
-            data: values_2
-        },  {
-            name: [names[2], ' ' + toDate(total_3)],
-            data: values_3
-        },  {
-            name: [names[3], ' ' + toDate(total_4)],
-            data: values_4
-        }]
-    });
+    if(student4 == "-" && student3 == "-"){
+		$('#container').highcharts({
+			title: {
+				text: parseTerm(term_id),//$( "li" ).text(),
+				x: -20
+			},
+			subtitle: {
+				text: 'Grupo # ' + group_id + ': Análisis Comparativo',
+				x: -20
+			},
+			xAxis: {
+				categories: $(".alldates").map(function() {
+					 return $(this).text();
+				}).get()
+			},
+			yAxis: {
+				min: 0,
+				tickInterval: 3600,
+				title: {
+					text: 'Horas Trabajadas'
+				},          
+				labels: {
+					formatter: function () {
+						return toDate(this.value)
+					}            
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: { formatter: function() {
+					return '<b>'+ this.series.name[0] +':</b> ' + toDate(this.point.y)
+				}
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: [names[0], ' ' + toDate(total_1)],
+				data: values_1
+			}, {
+				name: [names[1], ' ' + toDate(total_2)],
+				data: values_2
+			}]
+		});		
+	} else if (student4 == "-"){
+		$('#container').highcharts({
+			title: {
+				text: parseTerm(term_id),//$( "li" ).text(),
+				x: -20
+			},
+			subtitle: {
+				text: 'Grupo # ' + group_id + ': Análisis Comparativo',
+				x: -20
+			},
+			xAxis: {
+				categories: $(".alldates").map(function() {
+					 return $(this).text();
+				}).get()
+			},
+			yAxis: {
+				min: 0,
+				tickInterval: 3600,
+				title: {
+					text: 'Horas Trabajadas'
+				},          
+				labels: {
+					formatter: function () {
+						return toDate(this.value)
+					}            
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: { formatter: function() {
+					return '<b>'+ this.series.name[0] +':</b> ' + toDate(this.point.y)
+				}
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: [names[0], ' ' + toDate(total_1)],
+				data: values_1
+			}, {
+				name: [names[1], ' ' + toDate(total_2)],
+				data: values_2
+			},  {
+				name: [names[2], ' ' + toDate(total_3)],
+				data: values_3
+			}]
+		});
+	} else {
+		$('#container').highcharts({
+			title: {
+				text: parseTerm(term_id),//$( "li" ).text(),
+				x: -20
+			},
+			subtitle: {
+				text: 'Grupo # ' + group_id + ': Análisis Comparativo',
+				x: -20
+			},
+			xAxis: {
+				categories: $(".alldates").map(function() {
+					 return $(this).text();
+				}).get()
+			},
+			yAxis: {
+				min: 0,
+				tickInterval: 3600,
+				title: {
+					text: 'Horas Trabajadas'
+				},          
+				labels: {
+					formatter: function () {
+						return toDate(this.value)
+					}            
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: { formatter: function() {
+					return '<b>'+ this.series.name[0] +':</b> ' + toDate(this.point.y)
+				}
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: [names[0], ' ' + toDate(total_1)],
+				data: values_1
+			}, {
+				name: [names[1], ' ' + toDate(total_2)],
+				data: values_2
+			},  {
+				name: [names[2], ' ' + toDate(total_3)],
+				data: values_3
+			},  {
+				name: [names[3], ' ' + toDate(total_4)],
+				data: values_4
+			}]
+		});
+	}
 });

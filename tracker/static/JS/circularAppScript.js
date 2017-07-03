@@ -1,5 +1,5 @@
 $(function () {
-	var grupo_id = parseInt($("#grupo_id").text());
+	var group_id = parseInt($("#group_id").text());
 	var term_id = parseInt($("#term_id").text());
 	var student1 = ($("#student1").text());
 	var student2 = ($("#student2").text());
