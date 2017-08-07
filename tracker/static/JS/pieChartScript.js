@@ -10,6 +10,8 @@ $(function () {
 		($("#term_id")).text("2016 - 1T");
 	} else if (term_id == 2){
 		($("#term_id")).text("2016 - 2T");
+	} else if (term_id == 3){
+		($("#term_id")).text("2017 - 1T");
 	}
 			
 	//Datos

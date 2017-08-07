@@ -16,6 +16,8 @@ def pieChartGrupal(request, term_id, group_id):
         user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
     elif int(term_id) == 2:
         user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    elif int(term_id) == 3:
+        user_activity = filterByDate(user_activity, "2017-07-01", "2017-08-10")
     list_1 = fetchAllDocInfofromUser(user_activity, term_id, users[0])
     list_2 = fetchAllDocInfofromUser(user_activity, term_id, users[1])
     list_3 = fetchAllDocInfofromUser(user_activity, term_id, users[2])
@@ -70,6 +72,8 @@ def linealComparativo(request, term_id, group_id):
         user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
     elif int(term_id) == 2:
         user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    elif int(term_id) == 3:
+        user_activity = filterByDate(user_activity, "2017-07-01", "2017-08-10")
     list_1 = fetchDocInfofromUser(user_activity, term_id, users[0])
     sorted_dates_1, times_1 = buildDataset(list_1)
     list_2 = fetchDocInfofromUser(user_activity, term_id, users[1])
@@ -113,6 +117,8 @@ def circularAplicaciones(request, term_id, group_id):
         user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
     elif int(term_id) == 2:
         user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
+    elif int(term_id) == 3:
+        user_activity = filterByDate(user_activity, "2017-07-01", "2017-08-10")
     list_1 = fetchAppInfofromUser(user_activity, term_id, users[0])
     list_2 = fetchAppInfofromUser(user_activity, term_id, users[1])
     list_3 = fetchAppInfofromUser(user_activity, term_id, users[2])
@@ -192,6 +198,8 @@ def maxGroups(term_id):
         return 5
     elif int(term_id) == 2:
         return 6
+    elif int(term_id) == 3:
+        return 7
     
 def depurate(data):
     result = []
@@ -277,6 +285,48 @@ def groupSelector(term_id, group_id):
             user_3 = 18
             user_4 = 0
         return [user_1, user_2, user_3, user_4]
+    elif int(term_id) == 3:
+        if group_id in '1':
+            user_1 = 1
+            user_2 = 2
+            user_3 = 3
+            user_4 = 0
+        elif group_id in '2':
+            user_1 = 4
+            user_2 = 5
+            user_3 = 6
+            user_4 = 7
+        elif group_id in '3':
+            user_1 = 8
+            user_2 = 9
+            user_3 = 10
+            user_4 = 11
+        elif group_id in '4':
+            user_1 = 12
+            user_2 = 13
+            user_3 = 14
+            user_4 = 15
+        elif group_id in '5':
+            user_1 = 16
+            user_2 = 0
+            user_3 = 0
+            user_4 = 0
+        elif group_id in '6':
+            user_1 = 17
+            user_2 = 18
+            user_3 = 19
+            user_4 = 20
+        elif group_id in '7':
+            user_1 = 21
+            user_2 = 22
+            user_3 = 23
+            user_4 = 24
+        else:
+            user_1 = 1
+            user_2 = 2
+            user_3 = 3
+            user_4 = 4
+        return [user_1, user_2, user_3, user_4]
 
 def getNames(list_of_users, term):
     users = Users.objects.filter(termID=term)
@@ -294,6 +344,8 @@ def getNextPrevious(term_id, group_id):
         groups = [x for x in range(1, 6)]
     elif int(term_id) == 2:
         groups = [x for x in range(1, 7)]
+    elif int(term_id) == 3:
+        groups = [x for x in range(1, 8)]
     n = len(groups)
     return [str(groups[(current - 2) % n]), str(groups[(current) % n])]
 
@@ -331,13 +383,19 @@ def classifyUsefullness(dataset):
 
 def fetchDocInfofromUser(dataset, termino, user):
     user_activity = filterByUser(dataset, user)
-    user_activity = filterByClass(user_activity, "Documents")
+    if termino == 3:
+        user_activity = filterByClass(user_activity, "Documents")
+    else:
+        user_activity = filterByClass(user_activity, "Applications")
     user_activity = filterByRelevance(user_activity, 1)
     return user_activity
 
 def fetchAllDocInfofromUser(dataset, termino, user):
     user_activity = filterByUser(dataset, user)
-    user_activity = filterByClass(user_activity, "Documents")
+    if termino == 3:
+        user_activity = filterByClass(user_activity, "Documents")
+    else:
+        user_activity = filterByClass(user_activity, "Applications")
     return user_activity
 
 def fetchAppInfofromUser(dataset, termino, user):

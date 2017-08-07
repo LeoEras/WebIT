@@ -54,11 +54,14 @@
 			str = "2016-1T";
 		} else if (term_id == 2){
 			str = "2016-2T";
+		} else if (term_id == 3){
+			str = "2017-1T";
 		}
+		
 		return str;
 	}
-   
-    if(student4 == "-" && student3 == "-"){
+	   
+    if(student4 == "-" && student3 == "-" && student2 == "-"){
 		$('#container').highcharts({
 			title: {
 				text: parseTerm(term_id),//$( "li" ).text(),
@@ -103,9 +106,6 @@
 			series: [{
 				name: [names[0], ' ' + toDate(total_1)],
 				data: values_1
-			}, {
-				name: [names[1], ' ' + toDate(total_2)],
-				data: values_2
 			}]
 		});		
 	} else if (student4 == "-"){
@@ -161,6 +161,56 @@
 				data: values_3
 			}]
 		});
+	} else if (student3 == "-"){
+		$('#container').highcharts({
+			title: {
+				text: parseTerm(term_id),//$( "li" ).text(),
+				x: -20
+			},
+			subtitle: {
+				text: 'Grupo # ' + group_id + ': Análisis Comparativo',
+				x: -20
+			},
+			xAxis: {
+				categories: $(".alldates").map(function() {
+					 return $(this).text();
+				}).get()
+			},
+			yAxis: {
+				min: 0,
+				tickInterval: 3600,
+				title: {
+					text: 'Horas Trabajadas'
+				},          
+				labels: {
+					formatter: function () {
+						return toDate(this.value)
+					}            
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: { formatter: function() {
+					return '<b>'+ this.series.name[0] +':</b> ' + toDate(this.point.y)
+				}
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: [names[0], ' ' + toDate(total_1)],
+				data: values_1
+			}, {
+				name: [names[1], ' ' + toDate(total_2)],
+				data: values_2
+			}]
+		});
 	} else {
 		$('#container').highcharts({
 			title: {
@@ -209,10 +259,10 @@
 			}, {
 				name: [names[1], ' ' + toDate(total_2)],
 				data: values_2
-			},  {
+			}, {
 				name: [names[2], ' ' + toDate(total_3)],
 				data: values_3
-			},  {
+			}, {
 				name: [names[3], ' ' + toDate(total_4)],
 				data: values_4
 			}]
