@@ -26,7 +26,7 @@ SECRET_KEY = '*wz6xeh*wffv-7gm_!61y(*2dvla01#m+ob$nlje36jvrje17q'
 DEBUG = True
 
 ALLOWED_HOSTS = ['200.126.23.51', '127.0.0.1', 'localhost']
-
+#ALLOWED_HOSTS = ['200.126.23.51', '127.0.0.1', 'localhost', '200.10.150.91']
 
 # Application definition
 
@@ -82,7 +82,6 @@ DATABASES = {
         'PASSWORD': '1234',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
