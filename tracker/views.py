@@ -218,115 +218,49 @@ def depurate(data):
 def groupSelector(term_id, group_id):
     if int(term_id) == 1:
         if group_id in '1':
-            user_1 = 22
-            user_2 = 26
-            user_3 = 28
-            user_4 = 34
+            return [22, 26, 28, 34]
         elif group_id in '2':
-            user_1 = 23
-            user_2 = 32
-            user_3 = 36
-            user_4 = 41
+            return [23, 32, 36, 41]
         elif group_id in '3':
-            user_1 = 29
-            user_2 = 30
-            user_3 = 31
-            user_4 = 38
+            return [29, 30, 31, 38]
         elif group_id in '4':
-            user_1 = 27
-            user_2 = 37
-            user_3 = 39
-            user_4 = 40
+            return [27, 37, 39, 40]
         elif group_id in '5':
-            user_1 = 25
-            user_2 = 33
-            user_3 = 35
-            user_4 = 0
+            return [25, 33, 35, 0]
         else:
-            user_1 = 22
-            user_2 = 26
-            user_3 = 28
-            user_4 = 34
-        return [user_1, user_2, user_3, user_4]
+            return [22, 26, 28, 34]     
     elif int(term_id) == 2:
         if group_id in '1':
-            user_1 = 1
-            user_2 = 2
-            user_3 = 18
-            user_4 = 0
+            return [1, 2, 18, 0]
         elif group_id in '2':
-            user_1 = 4
-            user_2 = 10
-            user_3 = 22
-            user_4 = 0
+            return [4, 10, 22, 0]
         elif group_id in '3':
-            user_1 = 8
-            user_2 = 9
-            user_3 = 0
-            user_4 = 0
+            return [8, 9, 0, 0]
         elif group_id in '4':
-            user_1 = 7
-            user_2 = 13
-            user_3 = 15
-            user_4 = 0
+            return [7, 13, 15, 0]
         elif group_id in '5':
-            user_1 = 5
-            user_2 = 17
-            user_3 = 0
-            user_4 = 0
+            return [5, 17, 0, 0]
         elif group_id in '6':
-            user_1 = 3
-            user_2 = 6
-            user_3 = 21
-            user_4 = 0
+            return [3, 6, 21, 0]
         else:
-            user_1 = 1
-            user_2 = 2
-            user_3 = 18
-            user_4 = 0
-        return [user_1, user_2, user_3, user_4]
+            return [1, 2, 18, 0]
     elif int(term_id) == 3:
         if group_id in '1':
-            user_1 = 1
-            user_2 = 2
-            user_3 = 3
-            user_4 = 0
+            return [1, 2, 3, 0]
         elif group_id in '2':
-            user_1 = 4
-            user_2 = 5
-            user_3 = 6
-            user_4 = 7
+            return [4, 5, 6, 7]
         elif group_id in '3':
-            user_1 = 8
-            user_2 = 9
-            user_3 = 10
-            user_4 = 11
+            return [8, 9, 10, 11]
         elif group_id in '4':
-            user_1 = 12
-            user_2 = 13
-            user_3 = 14
-            user_4 = 15
+            return [12, 13, 14, 15]
         elif group_id in '5':
-            user_1 = 16
-            user_2 = 0
-            user_3 = 0
-            user_4 = 0
+            return [16, 0, 0, 0]
         elif group_id in '6':
-            user_1 = 17
-            user_2 = 18
-            user_3 = 19
-            user_4 = 20
+            return [17, 18, 19, 20]
         elif group_id in '7':
-            user_1 = 21
-            user_2 = 22
-            user_3 = 23
-            user_4 = 24
+            return [21, 22, 23, 24]
         else:
-            user_1 = 1
-            user_2 = 2
-            user_3 = 3
-            user_4 = 4
-        return [user_1, user_2, user_3, user_4]
+            return [1, 2, 3, 0]
 
 def getNames(list_of_users, term):
     users = Users.objects.filter(termID=term)
