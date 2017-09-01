@@ -16,7 +16,6 @@ class Application(models.Model):
     class Meta:
         managed = False
         db_table = 'Application'
-        #db_table = 'application'
 
 class Activity(models.Model):
     #activityID = models.IntegerField(blank=True, null=True)
@@ -25,7 +24,6 @@ class Activity(models.Model):
     class Meta:
         managed = False
         db_table = 'Activity'
-        #db_table = 'activity'
 
 class Term(models.Model):
     #termID = models.IntegerField(blank=True, null=True)
@@ -34,7 +32,6 @@ class Term(models.Model):
     class Meta:
         managed = False
         db_table = 'Term'
-        #db_table = 'term'
 
 class Dates(models.Model):
     #datesID = models.IntegerField(blank=True, null=True)
@@ -43,7 +40,6 @@ class Dates(models.Model):
     class Meta:
         managed = False
         db_table = 'Dates'
-        #db_table = 'dates'
 
 class Class_Type(models.Model):
     #classID = models.IntegerField(blank=True, null=True)
@@ -52,7 +48,6 @@ class Class_Type(models.Model):
     class Meta:
         managed = False
         db_table = 'Class'
-        #db_table = 'class'
 
 class Users(models.Model):
     #usersID = models.IntegerField(blank=True, null=True)
@@ -63,7 +58,6 @@ class Users(models.Model):
     class Meta:
         managed = False
         db_table = 'Users'
-        #db_table = 'users'
 
 class Log(models.Model):
     #logID = models.IntegerField(blank=True, null=True)
@@ -82,7 +76,7 @@ class Log(models.Model):
     class Meta:
         managed = False
         db_table = 'Log'
-        #db_table = 'log'
+
 
 class DjangoMigrations(models.Model):
     app = models.CharField(max_length=255)

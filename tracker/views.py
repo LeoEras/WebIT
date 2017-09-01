@@ -152,47 +152,6 @@ def circularAplicaciones(request, term_id, group_id):
                'max_groups': max_groups}
     return render(request, 'tracker/circularAplicaciones.html', context)
 
-##def circularActividades(request, term_id, group_id):
-##    users = groupSelector(term_id, group_id)
-##    names = getNames(users, term_id)
-##    all_dates = []
-##    user_activity = Log.objects.filter(termID=term_id)
-##    if int(term_id) == 1:
-##        user_activity = filterByDate(user_activity, "2016-07-21", "2016-09-08")
-##    elif int(term_id) == 2:
-##        user_activity = filterByDate(user_activity, "2017-01-01", "2017-03-05")
-##    list_1 = fetchAppInfofromUser(user_activity, term_id, users[0])
-##    list_2 = fetchAppInfofromUser(user_activity, term_id, users[1])
-##    list_3 = fetchAppInfofromUser(user_activity, term_id, users[2])
-##    list_4 = fetchAppInfofromUser(user_activity, term_id, users[3])
-##    mat_1, list_1 = buildActMatrix(list_1)
-##    mat_2, list_2 = buildActMatrix(list_2)
-##    mat_3, list_3 = buildActMatrix(list_3)
-##    mat_4, list_4 = buildActMatrix(list_4)
-##    list_1 = getAppList(list_1)
-##    list_2 = getAppList(list_2)
-##    list_3 = getAppList(list_3)
-##    list_4 = getAppList(list_4)
-##    print(list_4)
-##    prev_id, next_id = getNextPrevious(term_id, group_id)
-##    context = {'student1': names[0],
-##               'student2': names[1],
-##               'student3': names[2],
-##               'student4': names[3],
-##               'matrix_1': mat_1,
-##               'matrix_2': mat_2,
-##               'matrix_3': mat_3,
-##               'matrix_4': mat_4,
-##               'list_1': list_1,
-##               'list_2': list_2,
-##               'list_3': list_3,
-##               'list_4': list_4,
-##               'group_id': group_id,
-##               'prev_id': prev_id,
-##               'next_id': next_id,
-##               'term_id': term_id}
-##    return render(request, 'tracker/circularAplicaciones.html', context)
-
 def maxGroups(term_id):
     if int(term_id) == 1:
         return 5
@@ -204,7 +163,7 @@ def maxGroups(term_id):
 def depurate(data):
     result = []
     for item in data:
-        l_item = list(item)
+        l_item = list(item) #Converting to list because it's a tuple
         if "www" in l_item[0]:
             strings = l_item[0].split(".")
             string = strings[1]

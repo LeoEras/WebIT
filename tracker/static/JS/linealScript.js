@@ -63,6 +63,9 @@
 	   
     if(student4 == "-" && student3 == "-" && student2 == "-"){
 		$('#container').highcharts({
+			chart: {
+				zoomType: 'x'
+			},
 			title: {
 				text: parseTerm(term_id),//$( "li" ).text(),
 				x: -20
@@ -110,6 +113,9 @@
 		});		
 	} else if (student4 == "-"){
 		$('#container').highcharts({
+			chart: {
+				zoomType: 'x'
+			},
 			title: {
 				text: parseTerm(term_id),//$( "li" ).text(),
 				x: -20
@@ -163,6 +169,9 @@
 		});
 	} else if (student3 == "-"){
 		$('#container').highcharts({
+			chart: {
+				zoomType: 'x'
+			},
 			title: {
 				text: parseTerm(term_id),//$( "li" ).text(),
 				x: -20
@@ -213,6 +222,9 @@
 		});
 	} else {
 		$('#container').highcharts({
+			chart: {
+				zoomType: 'x'
+			},
 			title: {
 				text: parseTerm(term_id),//$( "li" ).text(),
 				x: -20
