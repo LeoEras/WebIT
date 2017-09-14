@@ -1,0 +1,64 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Gr&aacute;fica lineal comparativa por grupo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	{% load static %}
+	<script src="{% static "JS/productividadScript.js" %}"></script>
+	<!-- Additional files for the Highslide popup effect -->
+	<script src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
+	<script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+</head>
+<body>
+	<div class="basic">
+		{% include "tracker/includes/base.html" %}    
+	</div>
+	<h3 style="text-align: center;">Grupo {{group_id}} de {{max_groups}}</h3>
+	<div style="padding-left: 25px; padding-right: 25px;">
+		<h4 style="text-align: center;">La siguiente gr&aacute;fica permite comparar el tiempo empleado por cada estudiante
+		del grupo. El eje "y" representa el tiempo (medido en horas) que un estudiante de un grupo ha empleado para 
+		realizar el proyecto asignado en verde; mientras que en rojo se muestra el tiempo desperdiciado. 
+		El eje "x" los días que los estudiantes usaron la máquina virtual.
+		Seleccione parte de la gráfica con el mouse y arrastre una sección para hacer zoom.
+		</h4>
+	</div>
+    {% for item in dates %}
+        <li class="alldates" style="display: none">{{item}}</li>
+    {% endfor %}
+    {% for item in times_prod %}
+        <ul class="ul1" style="display: none">{{item}}</ul>
+    {% endfor %}
+    {% for item in times_unprod %}
+        <ul class="ul2" style="display: none">{{item}}</ul>
+    {% endfor %}
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="term_id" style="display: none">{{term_id}}</div>
+	<div id="group_id" style="display: none">{{group_id}}</div>
+	<p id="student" style="display: none">{{student}}</p>
+	<ul class="pager">
+		{% if prev_user_id != "0" %}
+			<li><a href="{% url 'graficaProductividad' term_id group_id prev_user_id%}">Estudiante anterior</a></li>
+		{% endif %}
+		{% if next_user_id != "0" %}
+			<li><a href="{% url 'graficaProductividad' term_id group_id next_user_id%}">Estudiante siguiente</a></li>
+		{% endif %}
+	</ul>
+	<ul class="pager">
+		{% if group_id > prev_id %}
+			<li><a href="{% url 'graficaProductividad' term_id prev_id prev_user_id%}">Grupo anterior</a></li>
+		{% endif %}
+		<li><a href="{% url 'linealComparativo' term_id group_id%}">Ver gr&aacute;fica lineal</a></li>
+		<li><a href="{% url 'pieChartGrupal' term_id group_id%}">Ver gr&aacute;fica circular</a></li>
+		<li><a href="{% url 'circularAplicaciones' term_id group_id%}">Ver gr&aacute;fica de aplicaciones</a></li>
+		{% if group_id < next_id %}
+			<li><a href="{% url 'graficaProductividad' term_id next_id next_user_id%}">Grupo siguiente</a></li>
+		{% endif %}
+	</ul>
+</body>
+</html>
